@@ -57,14 +57,16 @@ public class ControllerUser extends HttpServlet {
             case "registar_usuario":
                 //usuario comnún es = 2
                 try {
+                    User us = new User(username, pass, 2, 4,email);
+                    userDao.create(us);
+                    System.out.println(us.getIdPerson());
                     Profile pr = new Profile();
                     pr.setName(name);
                     pr.setLastname(last_name);
-                    profileDao.create(msg);
-                    User us = new User(pr.getIdUser(), username, pass, 2, 4,email);
-                    userDao.create(us);
+                    pr.setIdUser(us.getIdPerson());
+                    profileDao.create(pr);
                 } catch (CreateException ex){
-                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
                     msg = ex.getMessage();
                 }
                 break;
@@ -100,7 +102,7 @@ public class ControllerUser extends HttpServlet {
             return "El correo no es válido";
         }
 
-        if (username==null||!Validator.validateLetter(username)) {
+        if (username==null||!Validator.validateLetterAndNumber(username)) {
             return "El username es incorrecto";
         }
 

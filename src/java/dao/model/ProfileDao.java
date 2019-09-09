@@ -41,12 +41,12 @@ public class ProfileDao implements IProfile{
         conn = connection.connect();
         try {
             ct = conn.prepareCall("{call sp_insert_profile(?,?,?,?,?,?,?,?,?,?,?,?)}");
-            ct.setString(1, o.getUrlImage());
-            ct.setInt(2, o.getState());
+            ct.setInt(1, o.getIdUser());
+            ct.setString(2, o.getUrlImage());
             ct.setString(3,o.getName());
             ct.setString(4, o.getLastname());
             ct.setInt(5, o.getAge());
-            ct.setInt(6, o.getIdCountry());
+            ct.setInt(6, 1);
             ct.setString(7, o.getDescription());
             ct.setString(8,o.getTwitter());
             ct.setString(9,o.getFacebook());
@@ -55,14 +55,9 @@ public class ProfileDao implements IProfile{
             ct.setString(12,o.getUrlProfile());
             if(ct.executeUpdate()==0){
                 throw new CreateException("No se pudo crear el perfil");
-            }else{
-                System.err.println("Se creo el id del profile");
-              rs= ct.getGeneratedKeys();
-              if (rs.next()) {
-                o.setIdUser(rs.getInt(1));
-              }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
            throw new CreateException("No se pudo crear el perfil");
         } finally{
           cerrarConexiones();

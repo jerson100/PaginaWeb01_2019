@@ -45,5 +45,9 @@ public class Validator {
             System.out.println("dd");
         }
     }
+
+    public static boolean validateLetterAndNumber(String txt) {
+        return txt.matches("^[a-z|A-Z|áéíóúÁÉÍÓÚñÑ|0-9]+$");
+    }
     
 }

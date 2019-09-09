@@ -9,17 +9,17 @@ import java.util.Date;
 public class Session {
 
     private int idSession;
-    private Profile Profile;
+    private int idProfile;
     private Date DateSession;
 
-    public Session(Profile Profile, Date DateSession) {
-        this.Profile = Profile;
+    public Session(int idSession, int idProfile, Date DateSession) {
+        this.idSession = idSession;
+        this.idProfile = idProfile;
         this.DateSession = DateSession;
     }
 
-    public Session(int idSession, Profile Profile, Date DateSession) {
-        this.idSession = idSession;
-        this.Profile = Profile;
+    public Session(int idProfile, Date DateSession) {
+        this.idProfile = idProfile;
         this.DateSession = DateSession;
     }
 
@@ -31,12 +31,12 @@ public class Session {
         this.idSession = idSession;
     }
 
-    public Profile getProfile() {
-        return Profile;
+    public int getIdProfile() {
+        return idProfile;
     }
 
-    public void setProfile(Profile Profile) {
-        this.Profile = Profile;
+    public void setIdProfile(int idProfile) {
+        this.idProfile = idProfile;
     }
 
     public Date getDateSession() {
@@ -46,6 +46,7 @@ public class Session {
     public void setDateSession(Date DateSession) {
         this.DateSession = DateSession;
     }
+
 
     
     

@@ -33,6 +33,29 @@ input[type="text"],input[type="password"]{
     color: var(--color-second);
 }
 
+.login-msg{
+    position: fixed;
+    color: var(--third-color);
+    padding: 1rem;
+}
+
+.login-msg.active{
+    transform-origin: top left;
+    transform: scale(1);
+    top: 0;
+    left: 0;
+    width: 100%;
+    animation-name: je;
+    animation-iteration-count: 1;
+    animation-duration: 500ms;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes je{
+    from{transform: scale(0);}
+    to{transform: scale(1);}
+}
+
 /*RESPONSIVE
    ========================================================================= */
  

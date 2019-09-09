@@ -49,8 +49,8 @@
                         <input type="text" id="last-name" name="last-name">
                     </div>
                     <div class="form-item">
-                        <label for="age">Email:</label>
-                        <input type="text" id="age" name="age">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="email">
                     </div>
                     <div class="form-item">
                         <label for="username">Username:</label>
