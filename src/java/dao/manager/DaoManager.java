@@ -3,6 +3,7 @@ package dao.manager;
 import dao.enums.EDaoManager;
 import dao.interfaces.IConnection;
 import dao.interfaces.ICrud;
+import dao.model.ProfileDao;
 import dao.model.UsuarioDao;
 import dao.mysql.conexion.ConnectionMysql;
 
@@ -28,6 +29,9 @@ public class DaoManager {
              case DAO_USUARIO:
                  UsuarioDao userDao = new UsuarioDao(conn);
                  return userDao;
+             case DAO_PROFILE:
+                 ProfileDao pr = new ProfileDao(conn);
+                 return pr;
          }
          return null;
      }

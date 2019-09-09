@@ -7,15 +7,13 @@ import dao.exceptions.ReadException;
 import dao.exceptions.UpdateException;
 import dao.interfaces.IConnection;
 import dao.interfaces.IUsuario;
-import dao.oracle.conexion.ConnectionOracle;
+import dao.mysql.conexion.ConnectionMysql;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.User;
 
 /**
@@ -42,7 +40,6 @@ public class UsuarioDao implements IUsuario{
     
     @Override
     public void create(User o) throws CreateException {
-        connection = ConnectionOracle.getInstance();
         conn = connection.connect();
         try {
             ct = conn.prepareCall("{call sp_insert_users(?,?,?,?)}");

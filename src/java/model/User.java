@@ -11,21 +11,33 @@ public class User{
     private String pass;
     private int idTypeUser;
     private int idState;
+    private String email;
 
-    public User(int idPerson, String username, String pass, int idTypeUser, int idState) {
+    public User(int idPerson, String username, String pass, int idTypeUser, int idState,String email) {
         this.idPerson = idPerson;
         this.username = username;
         this.pass = pass;
         this.idTypeUser = idTypeUser;
         this.idState = idState;
+        this.email = email;
     }
 
-    public User(String username, String pass, int idTypeUser, int idState) {
+    public User(String username, String pass, int idTypeUser, int idState,String email) {
         this.username = username;
         this.pass = pass;
         this.idTypeUser = idTypeUser;
         this.idState = idState;
+        this.email = email;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
 
     public int getIdPerson() {
         return idPerson;

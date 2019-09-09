@@ -51,6 +51,10 @@ public class Profile {
         this.urlProfile = urlProfile;
     }
 
+    public Profile() {
+        
+    }
+
     public int getIdUser() {
         return idUser;
     }

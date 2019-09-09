@@ -11,7 +11,7 @@ public class Validator {
      * @return boolean
      */
     public static boolean validateLetter(String txt){
-        return txt.trim().matches("^[a-z|A-Z|áéíóúÁÉÍÓÚñÑ| ]*$");
+        return txt.trim().matches("^[a-z|A-Z|áéíóúÁÉÍÓÚñÑ]+$");
     }
     
     /**
@@ -30,7 +30,7 @@ public class Validator {
     public static boolean validateEmail(String txt){
         //mejorar para validar que no inicie con punto o cualquier otro 
         //caracter que no sea una letra
-        return txt.matches("^\\w+@[a-zA-Z]+.[a-z]");
+        return txt.matches("^\\w+@[a-zA-Z]+.[a-z]+");
     }
     
     /*
@@ -41,7 +41,7 @@ public class Validator {
     }
     
     public static void main(String[] args) {
-        if(validatePassword("hwswfed4wdA15")){
+        if(validateEmail("juamkoo@gmail.com")){
             System.out.println("dd");
         }
     }
