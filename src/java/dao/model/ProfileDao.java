@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao.model;
 
 import dao.exceptions.AllException;
@@ -12,6 +7,7 @@ import dao.exceptions.ReadException;
 import dao.exceptions.UpdateException;
 import dao.interfaces.IConnection;
 import dao.interfaces.IProfile;
+import dao.mysql.conexion.ConnectionMysql;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,7 +53,6 @@ public class ProfileDao implements IProfile{
                 throw new CreateException("No se pudo crear el perfil");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
            throw new CreateException("No se pudo crear el perfil");
         } finally{
           cerrarConexiones();
@@ -66,9 +61,28 @@ public class ProfileDao implements IProfile{
 
     @Override
     public Profile read(Integer id) throws ReadException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       conn = connection.connect();
+       Profile p = null;
+        try {
+            pr = conn.prepareStatement("select * from vprofile where idUser = ?");;
+            pr.setInt(1, id);
+            rs = pr.executeQuery();
+            if(rs.next()){
+                p = new Profile(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getString(8),
+                        rs.getString(9), rs.getString(10), rs.getString(11),
+                        rs.getString(12));
+            }else{
+               throw new ReadException("No se encontró el perfil");
+            }
+        } catch (SQLException e) {
+            throw new ReadException("No se encontró el perfil");
+        } finally{
+            cerrarConexiones();
+        }
+        return p;
     }
-
+    
     @Override
     public boolean update(Profile o) throws UpdateException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -35,10 +35,9 @@ public class Profile {
         this.urlProfile = urlProfile;
     }
 
-    public Profile(int idUser, String urlImage, int state, String name, String lastname, int age, int idCountry, String description, String twitter, String facebook, String youtube, String instagram, String urlProfile) {
+    public Profile(int idUser, String urlImage, String name, String lastname, int age, int idCountry, String description, String twitter, String facebook, String youtube, String instagram, String urlProfile) {
         this.idUser = idUser;
         this.urlImage = urlImage;
-        this.state = state;
         this.name = name;
         this.lastname = lastname;
         this.age = age;

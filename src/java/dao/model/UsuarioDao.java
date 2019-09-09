@@ -55,7 +55,7 @@ public class UsuarioDao implements IUsuario{
             ct.setString(2, password);  
             rs = ct.executeQuery();
             if(rs.next()) {
-                us = new User(username, password, rs.getInt(1), rs.getInt(2), rs.getString(3));
+                us = new User(username, password, rs.getInt(1),rs.getInt(2), rs.getInt(3), rs.getString(4));
             }else{
                 throw new AccesDeneg("Acceso denegado");
             }

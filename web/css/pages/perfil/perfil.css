@@ -43,7 +43,7 @@ body>footer{
 .user-banner-portada img{
     width: 100%;
     object-fit: cover;
-    height: 100%;
+    height: 14rem;
 }
 /**********************Fin-Banner*******************/
 
@@ -303,10 +303,10 @@ body>footer{
 @media screen and (min-width: 1024px){
     
     /************Banner************/
-    .user-banner-portada{
+    .user-banner-portada,
+     .user-banner-portada img{
         height: 16rem;
     }
-
 
     .main{
         flex-wrap: nowrap;
