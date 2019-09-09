@@ -1,0 +1,25 @@
+:root {
+    --heading-font: 'Open Sans', sans-serif;
+    --body-font: Lato, sans-serif;
+    --heading-line-height : 1.3;
+    --body-line-height    : 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading-font {
+    font-family: var(--heading-font);
+}
+
+body,
+.body-font {
+    font-family: var(--body-font);
+    line-height: var(--body-line-height);
+    font-weight: 400;
+}
+    
+

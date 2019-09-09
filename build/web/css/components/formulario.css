@@ -1,0 +1,39 @@
+[type="text"],
+[type="email"],
+[type="password"],
+[type="number"],
+[type="date"],
+[type="search"],
+[type="tel"],
+[type="file"],
+select,
+textarea {
+    display: block;
+    border: 1px solid var(--border-color);
+    background: #fff;
+    width: 100%;
+    line-height: 1.6;
+    font-family: Lato, "sans-serif";
+    font-size: var(--small-font-size);
+    color: var(--text-color);
+    border-radius: .25rem;
+    padding: .5rem 1rem;
+}
+
+.form-item {
+    margin-bottom: 1.5rem;
+}
+
+form .form-item:last-child {
+    /*margin-bottom: 0;*/
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+input[type="text"],
+input[type="password"] {
+    background-color: #e8f0fe;
+}

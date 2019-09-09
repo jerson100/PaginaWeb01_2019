@@ -1,0 +1,59 @@
+body{
+    height: 100vh;
+}
+/*
+input[type="text"],input[type="password"]{
+    max-width: 300px
+}*/
+
+.container-allPage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #303133;
+    height: 100%;
+}
+
+.allPage-contains{
+    background-color: #fff;
+    padding: 1.6rem;
+    width: auto;
+    margin:1rem;
+    overflow: auto;
+    width: 90%;
+    max-height: calc(100% - 2rem);
+    border-radius: 5px;
+}
+
+.allPage_header{
+    padding-bottom: .1rem;
+}
+
+.registry-user{
+    color: var(--color-second);
+}
+
+/*RESPONSIVE
+   ========================================================================= */
+ 
+/*Móviles en horizontal o tablets en vertical
+   ------------------------------------------------------------------------- */
+@media (min-width: 768px) { 
+    .allPage-contains{
+        width: 350px;
+    }
+}
+
+
+/*Escritorios muy anchos
+   ------------------------------------------------------------------------- */
+   @media (min-width: 1200px) { }
+
+ 
+/* Tablets en horizonal y escritorios normales
+   ------------------------------------------------------------------------- */
+@media screen and (min-width: 1024px){
+
+    
+
+}

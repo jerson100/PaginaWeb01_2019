@@ -1,0 +1,15 @@
+.je-container{
+    display: flex;
+    max-width: 1024px;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.je-item{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+    margin: 0;
+}

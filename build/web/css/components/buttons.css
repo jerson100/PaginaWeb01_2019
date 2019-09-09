@@ -1,0 +1,93 @@
+:root {
+    --color: #007BDF;
+    --color-alt: #006DC6;
+    --border-color: #DFE0E0;
+    --light-bg: #F0F0F0;
+    --border-radius: .25rem;
+    --vertical-block-space: 1rem;
+    --vertical-content-space: 1rem;
+    --gap: 1rem;
+}
+
+.button, [class*=button] {
+    display: inline-block;
+    padding: .5rem 1rem;
+    background-color: var(--color);
+    color: #FFF;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: inherit;
+    border-radius: var(--border-radius);
+    -webkit-transition: -webkit-transform .05s;
+    transition: -webkit-transform .05s;
+    transition: transform .05s;
+    transition: transform .05s, -webkit-transform .05s;
+    border: 1px solid var(--color);
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.button:hover{
+    background:var(--color-alt);
+}
+
+.second-color{
+    --color: var(--second-color);
+    --color-alt: var(--second-color-alt);
+}
+
+.third-color{
+    --color: var(--third-color);
+    --color-alt: var(--third-color-alt);
+}
+
+.accent-color{
+    --color: var(--accent-color);
+    --color-alt: var(--accent-color-alt);
+}
+
+.dark-color{
+    --color: var(--dark-color);
+    --color-alt: var(--dark-color-alt);
+}
+
+.light-color{
+    --color: var(--light-color);
+    --color-alt: var(--border-color);
+}
+
+/*
+    ------------BOTONES CON ESTILO FANTASMA----------------
+*/
+.ghost{
+    color: var(--color);
+    background-color: initial;
+}
+
+.ghost:hover{
+    background-color: var(--color-alt);
+    color: #FFF;
+}
+
+/*
+    Para poder centrar, con respecto al ancho de su contenedor
+*/
+.center-button[class*="button"]{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*
+    Se ajusta al 100% de su contendor
+*/
+.full[class*="button"]{
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+}
+
+
