@@ -1,0 +1,24 @@
+img {
+    max-width: 100%;
+}
+
+.user-banner-portada {
+    height: 14rem;
+    width: 100%;
+    position: relative;
+    margin-top: calc(var(--tam-logo) + var(--padding-header-tb) * 2 + 1px);
+}
+
+.user-banner-portada img {
+    width: 100%;
+    object-fit: cover;
+    height: 14rem;
+}
+
+@media screen and (min-width: 1024px){
+.user-banner-portada,
+.user-banner-portada img {
+    height: 16rem;
+}
+
+}

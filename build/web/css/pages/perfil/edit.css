@@ -1,0 +1,12 @@
+.user-banner-portada{
+    margin-bottom: 1rem;
+}
+.descripcion-profile{
+  position: relative;  
+}
+
+.count-desc{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
