@@ -10,3 +10,9 @@
     bottom: 20px;
     right: 20px;
 }
+
+.title-edit{
+    padding:.5rem 0;
+    text-align:center;
+    margin-bottom: 1.5rem;
+}

@@ -44,6 +44,7 @@
         <main>
             <div class="je-container">
                 <div class="je-item main-edit">
+                    <h1 class="t1 title-edit">Editar Perfil</h1>
                     <form method="post" name="form-editar-perfil" action="perfil">
                         <input type="hidden" name="accion" value="actualizar">
                         <div class="form-group">
@@ -58,26 +59,26 @@
                         </div>                   
                         <div class="form-group">
                             <div class="form-item">
-                                <label for="tw">Twitter: </label>
+                                <label for="tw"><i style="margin-right:.3rem;" class="fab fa-twitter"></i>Twitter: </label>
                                 <input type="text" id="tw" name="tw">
                             </div>
                             <div class="form-item">
-                                <label for="fb">Facebook: </label>
+                                <label for="fb"><i style="margin-right:.3rem;" class="fab fa-facebook-f"></i>Facebook: </label>
                                 <input type="text" id="fb" name="fb">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-item">
-                                <label for="ins">Instagram: </label>
+                                <label for="ins"><i style="margin-right:.3rem;" class="fab fa-instagram"></i>Instagram: </label>
                                 <input type="text" id="ins" name="ins">
                             </div>
                             <div class="form-item">
-                                <label for="yt">Youtube: </label>
+                                <label for="yt"><i style="margin-right:.3rem;" class="fab fa-youtube"></i>Youtube: </label>
                                 <input type="text" id="yt" name="yt">
                             </div>
                         </div>
                         <div class="form-item">
-                            <label for="img">Imagen de perfil: </label>
+                            <label for="img"><i style="margin-right:.3rem;" class="fab fas fa-user-circle"></i>Imagen de perfil: </label>
                             <input type="file" name="img" id="img">
                         </div>
                         <div class="form-item descripcion-profile">
