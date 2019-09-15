@@ -49,6 +49,7 @@ label {
 
 input[type="text"],
 input[type="password"],
+input[type="file"],
 textArea{
     background-color: #e8f0fe;
 }
@@ -75,9 +76,34 @@ textarea{
         animation-name: movcircle;
         animation-duration: 2s;
         animation-iteration-count: infinite;
-        animation-timing-function: linear;
+        animation-timing-function: linear;       
 }
 
+.circle::before{
+    content: '';
+    border: solid 5px transparent;
+    border-top: 5px solid #e8f0fe;
+    border-bottom: 5px solid #e8f0fe;
+    position: absolute;
+    /* top: -3px; */
+    /* left: -3px; */
+    border-radius: 50%;
+    width: 1.9rem;
+    height: 1.9rem;
+    animation-name: movb;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    
+}
+@keyframes movb{
+    from{
+        transform: rotate(0);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
 @keyframes movcircle{
     0%,20%{
         border-color: var(--color-border);
