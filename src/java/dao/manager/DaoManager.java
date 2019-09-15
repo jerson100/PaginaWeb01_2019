@@ -3,7 +3,9 @@ package dao.manager;
 import dao.enums.EDaoManager;
 import dao.interfaces.IConnection;
 import dao.interfaces.ICrud;
+import dao.model.CountryDao;
 import dao.model.ProfileDao;
+import dao.model.TypeUserDao;
 import dao.model.UsuarioDao;
 import dao.mysql.conexion.ConnectionMysql;
 
@@ -14,6 +16,7 @@ import dao.mysql.conexion.ConnectionMysql;
 
 /*
   Patrón factory, nos permite crear instancias..
+  de un tipo, en consecuencia podemos usar el polimorfismo :v
  */
 public class DaoManager {
     
@@ -26,12 +29,14 @@ public class DaoManager {
      public static ICrud getDaoManager(EDaoManager type){
          IConnection conn = ConnectionMysql.getInstance();
          switch(type){
-             case DAO_USUARIO:
-                 UsuarioDao userDao = new UsuarioDao(conn);
-                 return userDao;
+             case DAO_USER:
+                 return new UsuarioDao(conn);
              case DAO_PROFILE:
-                 ProfileDao pr = new ProfileDao(conn);
-                 return pr;
+                 return new ProfileDao(conn);
+             case DAO_COUNTRY:
+                 return new CountryDao(conn);
+             case DAO_TYPE_USER:
+                 return new TypeUserDao(conn);
          }
          return null;
      }

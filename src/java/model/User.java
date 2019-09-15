@@ -13,7 +13,7 @@ public class User{
     private int idState;
     private String email;
 
-    public User(int idPerson, String username, String pass, int idTypeUser, int idState,String email) {
+    public User(int idPerson, String username, String pass,String email, int idTypeUser) {
         this.idPerson = idPerson;
         this.username = username;
         this.pass = pass;
@@ -22,12 +22,13 @@ public class User{
         this.email = email;
     }
 
-    public User(String username, String pass, int idTypeUser, int idState,String email) {
+    public User(int idPerson,String username, String pass, int idTypeUser, int idState,String email) {
         this.username = username;
         this.pass = pass;
         this.idTypeUser = idTypeUser;
         this.idState = idState;
         this.email = email;
+        this.idPerson = idPerson;
     }
 
     public String getEmail() {

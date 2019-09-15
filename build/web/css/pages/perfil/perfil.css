@@ -1,30 +1,14 @@
 /*
 ====================HEADER====================
 */
-:root{
-    --tam-logo: 2rem;
-    --padding-header-tb:.5rem;
-    --width-img-user: 110px;
-}
 
-body{
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-body>footer{
-    margin-top: auto;
-}
 
 .card_article footer{
     background-color: var(--bgc-color);
     color: var(--color-text);
 }
 
-.ocultar{
-    display: none;
-}
+
 
 
 /*

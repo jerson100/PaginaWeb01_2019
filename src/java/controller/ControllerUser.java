@@ -26,6 +26,8 @@ public class ControllerUser extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("WEB-INF/usuario/registro.jsp").forward(request, response);
+        
+        
     }
 
     @Override
@@ -50,14 +52,14 @@ public class ControllerUser extends HttpServlet {
             return;
         }
 
-        ICrud userDao = DaoManager.getDaoManager(EDaoManager.DAO_USUARIO);
+        ICrud userDao = DaoManager.getDaoManager(EDaoManager.DAO_USER);
         ICrud profileDao = DaoManager.getDaoManager(EDaoManager.DAO_PROFILE);
 
         switch (accion) {
             case "registar_usuario":
                 //usuario comnún es = 2
                 try {
-                    User us = new User(username, pass, 2, 4,email);
+                    User us = new User(0,username, pass, 2, 4,email);
                     userDao.create(us);
                     System.out.println(us.getIdPerson());
                     Profile pr = new Profile();

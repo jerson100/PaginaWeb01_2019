@@ -1,3 +1,8 @@
+:root{
+    --tam-logo: 2rem;
+    --padding-header-tb:.5rem;
+    --width-img-user: 110px;
+}
 
 .main-header{
     padding-top: .5rem;

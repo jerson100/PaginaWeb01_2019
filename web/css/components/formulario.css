@@ -22,6 +22,20 @@ textarea {
 
 .form-item {
     margin-bottom: 1.5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.form-group{
+    display:flex;
+    flex-direction: row;
+}
+
+.form-group>.form-item{
+    flex-shrink: 1;
+    flex-grow: 1;
+    /*padding-left: .5rem;
+    padding-right: .5rem;*/
 }
 
 form .form-item:last-child {
@@ -34,6 +48,28 @@ label {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+textArea{
     background-color: #e8f0fe;
+}
+
+textarea{
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 200px;
+    max-height: 350px;
+}
+
+.circle{
+    width: 1.7rem;
+    font-size: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.7rem;
+        border: solid 3px var(--color-border);
+        pointer-events: none;
+        color: var(--accent-color);
+        background-color: var(--color-text);
 }

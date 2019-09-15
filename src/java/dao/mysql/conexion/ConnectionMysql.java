@@ -38,6 +38,7 @@ public class ConnectionMysql implements IConnection{
             //Class.forName(DRIVER);
             connection = DriverManager.getConnection(HOST,USER,PASS);
         } catch (SQLException ex) {
+            ex.printStackTrace();
             System.out.println("No se estableció la conexión a la base de datos mysql "+ex.getMessage());
         }/* catch (ClassNotFoundException ex) {
             System.out.println("Conexión no establecida: "+ex.getMessage());

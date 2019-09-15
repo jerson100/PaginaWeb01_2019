@@ -8,17 +8,12 @@ import dao.exceptions.ReadException;
 import dao.exceptions.UpdateException;
 import dao.interfaces.IConnection;
 import dao.interfaces.IUsuario;
-import dao.mysql.conexion.ConnectionMysql;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Session;
 import model.User;
 
 /**
@@ -55,12 +50,11 @@ public class UsuarioDao implements IUsuario{
             ct.setString(2, password);  
             rs = ct.executeQuery();
             if(rs.next()) {
-                us = new User(username, password, rs.getInt(1),rs.getInt(2), rs.getInt(3), rs.getString(4));
+                us = new User(rs.getInt(1),username, password,rs.getInt(2), rs.getInt(3), rs.getString(4));
             }else{
                 throw new AccesDeneg("Acceso denegado");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new AccesDeneg("Acceso denegado");
         } finally {
             cerrarConexiones();
@@ -94,7 +88,23 @@ public class UsuarioDao implements IUsuario{
 
     @Override
     public User read(Integer id) throws ReadException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User us = null;
+        conn = connection.connect();
+        try {
+            pr = conn.prepareStatement("select * from vusers where idUser=?");
+            pr.setInt(1, id);
+            rs = pr.executeQuery();
+            if(rs.next()){
+                us = new User(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getString(4),rs.getInt(5));
+            }else{
+                throw new ReadException("No se encontró el usuario");
+            }
+        } catch (SQLException e) {
+            throw new ReadException("No se encontró el usuario");
+        } finally{
+            cerrarConexiones();
+        }
+        return us;
     }
 
     @Override

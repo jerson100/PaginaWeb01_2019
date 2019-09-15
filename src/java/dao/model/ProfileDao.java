@@ -7,7 +7,6 @@ import dao.exceptions.ReadException;
 import dao.exceptions.UpdateException;
 import dao.interfaces.IConnection;
 import dao.interfaces.IProfile;
-import dao.mysql.conexion.ConnectionMysql;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -64,7 +63,7 @@ public class ProfileDao implements IProfile{
        conn = connection.connect();
        Profile p = null;
         try {
-            pr = conn.prepareStatement("select * from vprofile where idUser = ?");;
+            pr = conn.prepareStatement("select * from vprofile where idUser = ?");
             pr.setInt(1, id);
             rs = pr.executeQuery();
             if(rs.next()){

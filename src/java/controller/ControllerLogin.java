@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.User;
+import utils.States;
 
 /**
  *
@@ -27,27 +28,29 @@ public class ControllerLogin extends HttpServlet {
         request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
     }
 
-   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String username  = request.getParameter("username");
-        String password  = request.getParameter("password");
-        ICrud usuarioDao = DaoManager.getDaoManager(EDaoManager.DAO_USUARIO);
-        
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        ICrud usuarioDao = DaoManager.getDaoManager(EDaoManager.DAO_USER);
+
         try {
-            User us = ((UsuarioDao)usuarioDao).login(username, password);
-            HttpSession session = request.getSession(true);
-            session.setAttribute("user", us);
-            response.sendRedirect("/ProyectoWeb01");
+            User us = ((UsuarioDao) usuarioDao).login(username, password);
+            if (States.LOCKED == us.getIdState()) {
+                request.getSession().setAttribute("mensaje", "El usuario se encuentra bloqueado");
+                response.sendRedirect("login");
+            }else {
+                HttpSession session = request.getSession(true);
+                session.setAttribute("user", us);
+                response.sendRedirect("/ProyectoWeb01");
+            }
         } catch (AccesDeneg ex) {
             request.getSession().setAttribute("mensaje", ex.getMessage());
             response.sendRedirect("login");
         }
-        
-        
-        
+
     }
 
 }
