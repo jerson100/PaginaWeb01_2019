@@ -37,6 +37,8 @@ input[type="text"],input[type="password"]{
     position: fixed;
     color: var(--third-color);
     padding: 1rem;
+    top:0;
+    left: 0;
 }
 
 .login-msg.active{
@@ -51,9 +53,22 @@ input[type="text"],input[type="password"]{
     animation-timing-function: ease-in-out;
 }
 
+.msgError-desactive{
+    animation-name: retorno;
+    animation-iteration-count: 1;
+    animation-duration: 500ms;
+    animation-timing-function: ease-in-out;
+    transform: translate(-100%,-100%);
+}
+
 @keyframes je{
     from{transform: scale(0);}
     to{transform: scale(1);}
+}
+
+@keyframes retorno{
+    from{transform: translate(0%,0%);}
+    to{transform: translate(-100%,-100%);}
 }
 
 /*RESPONSIVE

@@ -90,6 +90,10 @@ textarea{
     animation-timing-function: linear;
 }
 
+.circle.fulldata{
+    color: var(--color-third-alt);
+}
+
 @keyframes movb{
     from{
         transform: rotate(0);

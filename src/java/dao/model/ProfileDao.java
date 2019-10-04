@@ -7,12 +7,15 @@ import dao.exceptions.ReadException;
 import dao.exceptions.UpdateException;
 import dao.interfaces.IConnection;
 import dao.interfaces.IProfile;
+import dao.mysql.conexion.ConnectionMysql;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Profile;
 
 /**
@@ -21,18 +24,17 @@ import model.Profile;
  */
 public class ProfileDao implements IProfile{
     
-    private IConnection connection;
+    private ConnectionMysql connection;
     private Connection conn;
     private PreparedStatement pr;
     private CallableStatement ct;
     private ResultSet rs;
     
-    public ProfileDao(IConnection conn){
-        this.connection = conn;
-    }
+    public ProfileDao(){}
 
     @Override
     public void create(Profile o) throws CreateException {
+        connection = ConnectionMysql.getInstance();
         conn = connection.connect();
         try {
             ct = conn.prepareCall("{call sp_insert_profile(?,?,?,?,?,?,?,?,?,?,?,?)}");
@@ -60,6 +62,7 @@ public class ProfileDao implements IProfile{
 
     @Override
     public Profile read(Integer id) throws ReadException {
+        connection = ConnectionMysql.getInstance();
        conn = connection.connect();
        Profile p = null;
         try {
@@ -98,23 +101,33 @@ public class ProfileDao implements IProfile{
     }
     
     private void cerrarConexiones() {
+        connection.close();
         if(pr!=null){
             try {
                 pr.close();
+                pr = null;
             } catch (SQLException ex) {}
         }
         if(rs!=null){
             try {
                 rs.close();
+                rs = null;
             } catch (SQLException ex) {}
         }
         if(ct!=null){
             try {
                 ct.close();
+                ct = null;
             } catch (SQLException ex) {}
         }
         if(conn!=null){
-            conn = null;
+            try {
+                conn.close();
+                conn = null;
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }
     

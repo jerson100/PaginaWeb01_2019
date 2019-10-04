@@ -50,15 +50,17 @@
         <link rel="stylesheet" href="css/pages/perfil/perfil.css">
         <link rel="stylesheet" href="css/components/modal.css">
         <link rel="stylesheet" href="css/components/formulario.css">
-        <script src="js/toogle.js"></script>
+        <link href="css/components/loader.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <jsp:include page="../includes/header.jsp"></jsp:include>
             <div class="user-banner-portada"><img src="imgs/jpg/banner.jpg" alt="imagen de portada"></div>
+            <div class="loader-container" id="loader"></div>
             <main>
                 <header class="ocultar">
                     <h1><%=us.getUsername()%></h1>
             </header>
+            
             <div class="je-container main">
                 <section class="je-item section-user">
                     <header>
@@ -83,7 +85,7 @@
                     </div>
                         <%if(request.getSession().getAttribute("user")!=null){%>
                     <button class="user-dat button ghost">cambiar contraseña</button>
-                    <a href="perfil?accion=editar" class="user-dat button">Editar</a>
+                    <button href="perfil?accion=editar" id="user-btn-editar" class="user-dat button">Editar</button>
                     <button class="user-dat button ghost" id="publicar">Publicar</button>
                     <%}%>
                 </section>
@@ -152,7 +154,7 @@
                                     </footer>
                                 </article>
                             </div>
-                            <div class="group-date"><span class="small">2019</span><span class="small">02/09      </span></div>
+                            <div class="group-date"><span class="small">2019</span><span class="small">02/09</span></div>
                         </div>
                         <div class="group-post">
                             <div class="container-card">
@@ -367,6 +369,9 @@
                 </div>
             </div>
         </footer>
+        <script src="js/ajax.js" type="text/javascript"></script>
+        <script src="js/toogle.js"></script>
+        <script src="js/form.js" type="text/javascript"></script>
         <script>toogleButton('icon', 'navigation', 'active')</script>
         <script src="js/modal.js"></script>
         <script src="js/vistaCards.js"></script>
@@ -402,5 +407,6 @@
         </script>
         <script src="js/scripts-min.js"></script>
         <script src="https://kit.fontawesome.com/56e0c4d4ed.js"></script>
+        <script src="js/view-proile-editar.js" type="text/javascript"></script>
     </body>
 </html>

@@ -12,12 +12,15 @@ import dao.exceptions.ReadException;
 import dao.exceptions.UpdateException;
 import dao.interfaces.IConnection;
 import dao.interfaces.ITypeUser;
+import dao.mysql.conexion.ConnectionMysql;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.TypeUser;
 
 /**
@@ -26,15 +29,13 @@ import model.TypeUser;
  */
 public class TypeUserDao implements ITypeUser{
 
-    private IConnection connection;
+    private ConnectionMysql connection;
     private Connection conn;
     private PreparedStatement pr;
     private CallableStatement ct;
     private ResultSet rs;
     
-    public TypeUserDao(IConnection conn){
-        this.connection = conn;
-    }
+    public TypeUserDao(){}
     
     @Override
     public void create(TypeUser o) throws CreateException {
@@ -43,6 +44,7 @@ public class TypeUserDao implements ITypeUser{
 
     @Override
     public TypeUser read(Integer id) throws ReadException {
+        connection = ConnectionMysql.getInstance();
         TypeUser t=null;
         conn = connection.connect();
         try {
@@ -55,7 +57,7 @@ public class TypeUserDao implements ITypeUser{
                throw new ReadException("No se encontró el tipo de usuario");
             }
         } catch (SQLException e) {
-        throw new ReadException("No se encontró el tipo de usuario");
+            throw new ReadException("No se encontró el tipo de usuario");
         } finally{
             cerrarConexiones();
         }
@@ -77,24 +79,34 @@ public class TypeUserDao implements ITypeUser{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    private void cerrarConexiones() {
+   private void cerrarConexiones() {
+        connection.close();
         if(pr!=null){
             try {
                 pr.close();
+                pr = null;
             } catch (SQLException ex) {}
         }
         if(rs!=null){
             try {
                 rs.close();
+                rs = null;
             } catch (SQLException ex) {}
         }
         if(ct!=null){
             try {
                 ct.close();
+                ct = null;
             } catch (SQLException ex) {}
         }
         if(conn!=null){
-            conn = null;
+            try {
+                conn.close();
+                conn = null;
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }
     

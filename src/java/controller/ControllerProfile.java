@@ -5,6 +5,8 @@ import dao.exceptions.ReadException;
 import dao.interfaces.ICrud;
 import dao.manager.DaoManager;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +31,18 @@ public class ControllerProfile extends HttpServlet {
 
         if (request.getParameter("accion") != null) {
 
-            request.getRequestDispatcher("WEB-INF/usuario/editar.jsp").forward(request, response);
+            try {
+                //obtemos el profile del user
+                
+                ICrud<Profile,Integer> dao = DaoManager.getDaoManager(EDaoManager.DAO_PROFILE);
+                
+                Profile p = dao.read(((User)request.getSession().getAttribute("user")).getIdPerson());
+                
+                request.setAttribute("profile", p);
+                request.getRequestDispatcher("WEB-INF/usuario/editar.jsp").forward(request, response);
+            } catch (ReadException ex) {
+                Logger.getLogger(ControllerProfile.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         } else {
 

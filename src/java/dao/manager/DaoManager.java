@@ -27,16 +27,15 @@ public class DaoManager {
     }
     
      public static ICrud getDaoManager(EDaoManager type){
-         IConnection conn = ConnectionMysql.getInstance();
          switch(type){
              case DAO_USER:
-                 return new UsuarioDao(conn);
+                 return new UsuarioDao();
              case DAO_PROFILE:
-                 return new ProfileDao(conn);
+                 return new ProfileDao();
              case DAO_COUNTRY:
-                 return new CountryDao(conn);
+                 return new CountryDao();
              case DAO_TYPE_USER:
-                 return new TypeUserDao(conn);
+                 return new TypeUserDao();
          }
          return null;
      }
