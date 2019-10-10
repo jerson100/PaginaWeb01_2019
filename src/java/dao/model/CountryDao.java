@@ -103,5 +103,10 @@ public class CountryDao implements ICountry {
             
         }
     }
+
+    @Override
+    public List<Country> all(Integer id) throws AllException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

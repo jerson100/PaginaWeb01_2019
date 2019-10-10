@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao.interfaces;
 
+import dao.exceptions.ReadException;
 import model.Profile;
 
 /**
@@ -12,5 +8,5 @@ import model.Profile;
  * @author Jerson
  */
 public interface IProfile extends ICrud<Profile,Integer>{
-    
+    String getImageProfile(int id) throws ReadException;
 }

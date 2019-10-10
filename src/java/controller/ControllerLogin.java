@@ -3,8 +3,10 @@ package controller;
 import com.google.gson.Gson;
 import dao.enums.EDaoManager;
 import dao.exceptions.AccesDeneg;
+import dao.exceptions.ReadException;
 import dao.interfaces.ICrud;
 import dao.manager.DaoManager;
+import dao.model.ProfileDao;
 import dao.model.UsuarioDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,10 +41,10 @@ public class ControllerLogin extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Gson json = new Gson();
-        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         ICrud usuarioDao = DaoManager.getDaoManager(EDaoManager.DAO_USER);
+        ICrud perfilDao = DaoManager.getDaoManager(EDaoManager.DAO_PROFILE);
 
         Map<String,Object> dat = new HashMap<>();
         
@@ -59,6 +61,14 @@ public class ControllerLogin extends HttpServlet {
             }else {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", us);
+                
+                
+                String urlProfile = null;
+                try {
+                    urlProfile = ((ProfileDao)perfilDao).getImageProfile(us.getIdPerson());
+                } catch (ReadException e) {
+                }
+                session.setAttribute("urlProfile", urlProfile);//obtener la imagen de la bd del usuario
                 //response.sendRedirect("/ProyectoWeb01");
                 msg =  "Bienvenido";
                 acc = true;

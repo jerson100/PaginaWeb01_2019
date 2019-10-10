@@ -28,7 +28,6 @@ public class ControllerLogout extends HttpServlet {
             session.removeAttribute("mensaje");
             session.invalidate();
         }
-        
         response.sendRedirect("login");
         
     }

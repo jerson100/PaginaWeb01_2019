@@ -5,6 +5,10 @@ const initOyenteTeclado = () => {
     const txt = document.getElementById("description");
     const span = document.getElementById("count-desc");
     const max = 250;/*Longitud máxima de carácteres*/
+    if(!txt){
+        return;
+    }
+    
     txt.addEventListener('contextmenu', w => w.preventDefault());
 
     txt.addEventListener('keyup', evt => {

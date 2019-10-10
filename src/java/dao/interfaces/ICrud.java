@@ -6,6 +6,7 @@ import dao.exceptions.DeleteException;
 import dao.exceptions.ReadException;
 import dao.exceptions.UpdateException;
 import java.util.List;
+import model.Post;
 
 /**
  *
@@ -17,4 +18,5 @@ public interface ICrud<T,K> {
     boolean update(T o) throws UpdateException;
     boolean delete(K id) throws DeleteException;
     List<T> all() throws AllException;
+    List<T> all(K id) throws AllException;
 }

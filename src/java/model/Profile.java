@@ -18,9 +18,8 @@ public class Profile {
     private String facebook;
     private String youtube;
     private String instagram;
-    private String urlProfile;
 
-    public Profile(String urlImage, int state, String name, String lastname, int age, int idCountry, String description, String twitter, String facebook, String youtube, String instagram, String urlProfile) {
+    public Profile(String urlImage, int state, String name, String lastname, int age, int idCountry, String description, String twitter, String facebook, String youtube, String instagram) {
         this.urlImage = urlImage;
         this.state = state;
         this.name = name;
@@ -32,10 +31,9 @@ public class Profile {
         this.facebook = facebook;
         this.youtube = youtube;
         this.instagram = instagram;
-        this.urlProfile = urlProfile;
     }
 
-    public Profile(int idUser, String urlImage, String name, String lastname, int age, int idCountry, String description, String twitter, String facebook, String youtube, String instagram, String urlProfile) {
+    public Profile(int idUser, String urlImage, String name, String lastname, int age, int idCountry, String description, String twitter, String facebook, String youtube, String instagram) {
         this.idUser = idUser;
         this.urlImage = urlImage;
         this.name = name;
@@ -47,7 +45,6 @@ public class Profile {
         this.facebook = facebook;
         this.youtube = youtube;
         this.instagram = instagram;
-        this.urlProfile = urlProfile;
     }
 
     public Profile() {
@@ -149,16 +146,5 @@ public class Profile {
     public void setInstagram(String instagram) {
         this.instagram = instagram;
     }
-
-    public String getUrlProfile() {
-        return urlProfile;
-    }
-
-    public void setUrlProfile(String urlProfile) {
-        this.urlProfile = urlProfile;
-    }
-
-    
-    
     
 }

@@ -12,7 +12,8 @@ formulario.addEventListener('submit', e => {
     let request = {
         method: "POST",
         url: "login",
-        data: `username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`
+        data: `username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`,
+        multipart: false
     };
     AJAX.ajax(request).then((response) => {
         switch (response.status) {
@@ -33,45 +34,16 @@ formulario.addEventListener('submit', e => {
 });
 
 const draw = (json) => {
+    let msgError = document.querySelector(".modal-msg");
+    let modal;
+    if (msgError !== null)document.body.removeChild(msgError);
     if (json.acceso) {
-        location.href = json.url;
+        modal = new ModalMensajeSuccess(json.mensaje, true);
+        setTimeout(() => {
+            location.href = json.url;
+        }, 500);
     } else {
-        let msgError = document.querySelector(".login-msg");
-        if (!msgError) {
-            let documentFrag = document.createDocumentFragment();
-            let container = document.createElement("div");
-            container.classList.add("login-msg", "active");
-            container.textContent = json.mensaje;
-            documentFrag.appendChild(container);
-            document.body.appendChild(documentFrag);
-            iniMsgError(container)
-            .then((container)=>{
-                    return finMsgError(container);
-               })
-            .then();
-        }
+        modal = new ModalMensajeError(json.mensaje, true);
     }
+    modal.open("msg-normal-open-text");
 };
-
-const iniMsgError = (container)=>{
-    return new Promise((resolve,reject)=>{
-        console.log("mensaje activo");
-        setTimeout(() => {
-            console.log("mensaje activo quitado");
-            container.classList.remove("active");
-            container.classList.add("msgError-desactive");
-            resolve(container);
-        },1000);            
-    });
-}
-
-const finMsgError = (container)=>{
-    return new Promise((resolve,reject)=>{
-        console.log("mensaje retrocediendo");
-        setTimeout(() => {
-            console.log("mensaje eliminado");
-            document.body.removeChild(container);
-            resolve();
-        },500);
-    });
-}

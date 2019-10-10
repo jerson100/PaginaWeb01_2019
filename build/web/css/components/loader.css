@@ -3,7 +3,7 @@
     height: 40px;
     border: solid 3px;
     border-radius: 50%;
-    z-index: 10000;
+    z-index: 100000;
 }
 
 .loader-container{

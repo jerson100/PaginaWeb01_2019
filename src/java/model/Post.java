@@ -8,30 +8,43 @@ import java.util.Date;
  */
 public class Post {
     private int idPost;
-    private Date date;
+    private int idUser;//usuario que creó el post
     private String title;
-    private String description;
-    private int idUsuario;
-    private String urlPhoto;
-    private int idState;
+    private String urlImage;
+    private Date datePost;
+    private byte idState;
+    private int countLikes;
 
-    public Post(int idPost, Date date, String title, String description, int idUsuario, String urlPhoto, int idState) {
+    public Post() {
+    }
+    
+    
+
+    public Post(int idPost, int idUser, String title, String urlImage, byte idState) {
         this.idPost = idPost;
-        this.date = date;
+        this.idUser = idUser;
         this.title = title;
-        this.description = description;
-        this.idUsuario = idUsuario;
-        this.urlPhoto = urlPhoto;
+        this.urlImage = urlImage;
         this.idState = idState;
     }
 
-    public Post(Date date, String title, String description, int idUsuario, String urlPhoto, int idState) {
-        this.date = date;
+    public Post(int idPost, int idUser, String title, String urlImage, Date datePost, int countLikes) {
+        this.idPost = idPost;
+        this.idUser = idUser;
         this.title = title;
-        this.description = description;
-        this.idUsuario = idUsuario;
-        this.urlPhoto = urlPhoto;
+        this.urlImage = urlImage;
+        this.datePost = datePost;
+        this.countLikes = countLikes;
+    }
+
+    public Post(int idPost, int idUser, String title, String urlImage, Date datePost, byte idState, int countLikes) {
+        this.idPost = idPost;
+        this.idUser = idUser;
+        this.title = title;
+        this.urlImage = urlImage;
+        this.datePost = datePost;
         this.idState = idState;
+        this.countLikes = countLikes;
     }
 
     public int getIdPost() {
@@ -42,12 +55,12 @@ public class Post {
         this.idPost = idPost;
     }
 
-    public Date getDate() {
-        return date;
+    public int getIdUser() {
+        return idUser;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
     public String getTitle() {
@@ -58,39 +71,38 @@ public class Post {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getUrlImage() {
+        return urlImage;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public Date getDatePost() {
+        return datePost;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setDatePost(Date datePost) {
+        this.datePost = datePost;
     }
 
-    public String getUrlPhoto() {
-        return urlPhoto;
-    }
-
-    public void setUrlPhoto(String urlPhoto) {
-        this.urlPhoto = urlPhoto;
-    }
-
-    public int getIdState() {
+    public byte getIdState() {
         return idState;
     }
 
-    public void setIdState(int idState) {
+    public void setIdState(byte idState) {
         this.idState = idState;
     }
 
-    
+    public int getCountLikes() {
+        return countLikes;
+    }
+
+    public void setCountLikes(int countLikes) {
+        this.countLikes = countLikes;
+    }
+
     
     
 }

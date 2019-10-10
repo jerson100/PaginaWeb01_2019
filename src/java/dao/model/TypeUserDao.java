@@ -109,5 +109,10 @@ public class TypeUserDao implements ITypeUser{
             
         }
     }
+
+    @Override
+    public List<TypeUser> all(Integer id) throws AllException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

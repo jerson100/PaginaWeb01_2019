@@ -112,7 +112,24 @@ public class UsuarioDao implements IUsuario{
 
     @Override
     public boolean update(User o) throws UpdateException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            connection = ConnectionMysql.getInstance();
+            conn = connection.connect();
+            ct = conn.prepareCall("call sp_update_users(?,?,?,?,?)");
+            ct.setInt(1, o.getIdPerson());
+            ct.setString(2, o.getUsername());
+            ct.setString(3, o.getPass());
+            ct.setString(4, o.getEmail());
+            ct.setInt(5, o.getIdTypeUser());
+            if(ct.executeUpdate()==0){
+                throw new UpdateException("No se pudo actualizar el usuario");
+            }
+        } catch (SQLException ex) {
+            throw new UpdateException("No se pudo actualizar el usuario");
+        } finally{
+            cerrarConexiones();
+        }
+        return true;
     }
 
     @Override
@@ -154,6 +171,11 @@ public class UsuarioDao implements IUsuario{
             }
             
         }
+    }
+
+    @Override
+    public List<User> all(Integer id) throws AllException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

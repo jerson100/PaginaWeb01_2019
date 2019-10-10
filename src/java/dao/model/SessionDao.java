@@ -85,5 +85,10 @@ public class SessionDao implements ISession {
             conn = null;
         }
     }
+
+    @Override
+    public List<Session> all(Integer id) throws AllException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

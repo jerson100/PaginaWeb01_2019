@@ -23,26 +23,11 @@
     <link rel="stylesheet" href="css/pages/templateAbstract.css">
     <link rel="stylesheet" href="css/components/formulario.css">
     <link href="css/components/loader.css" rel="stylesheet" type="text/css"/>
+    <link href="css/components/modal.css" rel="stylesheet" type="text/css"/>
   </head>
   
   <body>
-      <!--
-      <%
-          /*
-          String msg = "";
-          if(request.getSession().getAttribute("mensaje")!=null){
-             msg = (String)request.getSession().getAttribute("mensaje");
-          }
-         */%>
-         <div class="login-msg <%//out.println(!msg.equals("")?"active":"");%>">
-             <%//if(!msg.equals("")){%>
-                 <%//=(String)request.getSession().getAttribute("mensaje")%>
-                 <%//request.getSession().removeAttribute("mensaje");%>
-             <%//}%>
-         </div>
-         
-         -->
-         <div class="loader-container" id="loader"></div>
+    <div class="loader-container" id="loader"></div>
     <main class="container-allPage">
       <div class="allPage-contains">
         <div class="allPage_header">
@@ -67,6 +52,8 @@
       </div>
     </main>
     <script src="js/ajax.js" type="text/javascript"></script>
+    <script src="js/utils/modal.js" type="text/javascript"></script>
+    <!--<script src="js/modalMensaje.js" type="text/javascript"></script>-->
     <script src="js/view-login.js" type="text/javascript"></script>
   </body>
 </html>

@@ -21,56 +21,52 @@
         <link rel="stylesheet" href="css/components/buttons.css">
         <link rel="stylesheet" href="css/pages/templateAbstract.css">
         <link rel="stylesheet" href="css/components/formulario.css">
+        <link href="css/components/loader.css" rel="stylesheet" type="text/css"/>
+        <link href="css/components/modal.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-
-        <%
-           if(request.getSession().getAttribute("mensaje")!=null)
-           {
-            out.println("<div>"+(String)request.getSession().getAttribute("mensaje")+"</div>");
-            request.getSession().setAttribute("mensaje", null);
-        }
-        %>
-
-    <main class="container-allPage">
-        <div class="allPage-contains">
-            <div class="allPage_header">
-                <h1 class="small text-right">Registro</h1>
+        <div class="loader-container" id="loader"></div>
+        <main class="container-allPage">
+            <div class="allPage-contains">
+                <div class="allPage_header">
+                    <h1 class="small text-right">Registro</h1>
+                </div>
+                <div class="allPage_main"> 
+                    <form id="formulario-registro">
+                        <div class="form-item">
+                            <label for="name">Nombre:</label>
+                            <input type="text" id="name" name="name">
+                        </div>
+                        <div class="form-item">
+                            <label for="last-name">Apellidos:</label>
+                            <input type="text" id="last-name" name="last-name">
+                        </div>
+                        <div class="form-item">
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" name="email">
+                        </div>
+                        <div class="form-item">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username">
+                        </div>
+                        <div class="form-item">
+                            <label for="pass">Password:</label>
+                            <input type="password" id="pass" name="pass">
+                        </div>
+                        <div class="form-item">
+                            <label for="pass-r">Repite la password:</label>
+                            <input type="password" id="pass-r" name="passR">
+                        </div>
+                        <div class="form-item">
+                            <input class="button center-button" type="submit" value="Registrarme">
+                        </div>
+                    </form>
+                </div>
+                <div class="allPage_footer"></div>
             </div>
-            <div class="allPage_main"> 
-                <form action="registro" method="post" name="form-registro">
-                    <input type="hidden" name="accion" value="registar_usuario">
-                    <div class="form-item">
-                        <label for="name">Nombre:</label>
-                        <input type="text" id="name" name="name">
-                    </div>
-                    <div class="form-item">
-                        <label for="last-name">Apellidos:</label>
-                        <input type="text" id="last-name" name="last-name">
-                    </div>
-                    <div class="form-item">
-                        <label for="email">Email:</label>
-                        <input type="text" id="email" name="email">
-                    </div>
-                    <div class="form-item">
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username">
-                    </div>
-                    <div class="form-item">
-                        <label for="pass">Password:</label>
-                        <input type="password" id="pass" name="pass">
-                    </div>
-                    <div class="form-item">
-                        <label for="pass-r">Repite la password:</label>
-                        <input type="password" id="pass-r" name="passR">
-                    </div>
-                    <div class="form-item">
-                        <input class="button center-button" type="submit" value="Registrarme">
-                    </div>
-                </form>
-            </div>
-            <div class="allPage_footer"></div>
-        </div>
-    </main>
-</body>
+        </main>
+    </body>
+    <script src="js/ajax.js" type="text/javascript"></script>
+    <script src="js/utils/modal.js" type="text/javascript"></script>
+    <script src="js/view-registro.js" type="text/javascript"></script>
 </html>

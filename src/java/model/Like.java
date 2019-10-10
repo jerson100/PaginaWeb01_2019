@@ -6,40 +6,25 @@ import java.util.Date;
  *
  * @author Jerson
  */
+//como si fuera la clase like
 public class Like {
-
-    private int idLike;
-    private Date date;
     private int idPost;
     private int idUser;
+    private Date datePostU;
+    private byte state;
 
-    public Like(int idLike, Date date, int idPost, int idUser) {
-        this.idLike = idLike;
-        this.date = date;
+    public Like(){};
+    
+    public Like(int idPost, int idUser) {
         this.idPost = idPost;
         this.idUser = idUser;
     }
 
-    public Like(Date date, int idPost, int idUser) {
-        this.date = date;
+    public Like(int idPost, int idUser, Date datePostU, byte state) {
         this.idPost = idPost;
         this.idUser = idUser;
-    }
-
-    public int getIdLike() {
-        return idLike;
-    }
-
-    public void setIdLike(int idLike) {
-        this.idLike = idLike;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+        this.datePostU = datePostU;
+        this.state = state;
     }
 
     public int getIdPost() {
@@ -56,6 +41,22 @@ public class Like {
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
+    }
+
+    public Date getDatePostU() {
+        return datePostU;
+    }
+
+    public void setDatePostU(Date datePostU) {
+        this.datePostU = datePostU;
+    }
+
+    public byte getState() {
+        return state;
+    }
+
+    public void setState(byte state) {
+        this.state = state;
     }
 
 }

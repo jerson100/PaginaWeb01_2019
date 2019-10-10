@@ -8,7 +8,9 @@ class AJAX {
                 xhr = new ActiveXObject("Microsoft.XMLHTTP");
             }
             xhr.open(request.method, request.url, true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            if(!request.multipart){
+               xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            }
             xhr.addEventListener('load', response => {
                 resolve(response.target); //resuelve la promesa
             });

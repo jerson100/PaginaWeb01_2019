@@ -4,6 +4,8 @@ import dao.enums.EDaoManager;
 import dao.interfaces.IConnection;
 import dao.interfaces.ICrud;
 import dao.model.CountryDao;
+import dao.model.LikeDao;
+import dao.model.PostDao;
 import dao.model.ProfileDao;
 import dao.model.TypeUserDao;
 import dao.model.UsuarioDao;
@@ -36,6 +38,10 @@ public class DaoManager {
                  return new CountryDao();
              case DAO_TYPE_USER:
                  return new TypeUserDao();
+             case DAO_POST:
+                 return new PostDao();
+             case DAO_LIKE:
+                 return new LikeDao();
          }
          return null;
      }
