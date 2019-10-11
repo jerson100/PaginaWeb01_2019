@@ -1,3 +1,5 @@
+'use strict';
+
 class Modal {
 
     constructor(header, body, footer, closable = false, isActive = false) {
@@ -124,40 +126,34 @@ const openModalImg = (p) => {
         padre.addEventListener('click', e => {
             let elementP = e.target;//elemento pulsado
             if (elementP.tagName === 'IMG') {
-                //creamos el modal
-                let container = document.createElement("div");
-                container.classList.add("modal-imagen");
-                container.style.display = "flex";
+                let img = createCustomElement("img",{
+                    "class": "modal-img",
+                    "src" : elementP.src,
+                    "alt" : elementP.alt
+                });
+                let userImagenPost = createCustomElement("img",{
+                    "src":e.target.parentElement.parentElement.querySelector(".card_autor_img").src,
+                    "class": "img-user-post"
+                },[]);
+                let containerImage = createCustomElement("div", {"class": "containerImg"}, [img,userImagenPost]);
+                let titulo = createCustomElement("h3", {}, ['Usuarios que dieron like']);
+                let listaUsers = createCustomElement("ul", {"class": "list-users"});
+                let containerUsers = createCustomElement("div", {"class": "container-users"}, [listaUsers]);
+                let containerLike = createCustomElement("div", 
+                {
+                    "class": "containerLike",
+                    "style": "background-color:white;"
+                } , [titulo, containerUsers]);
 
-                let cnImg = document.createElement("div"),
-                        im = document.createElement("img");
-                cnImg.classList.add("containerImg");
-                im.classList.add("modal-img");
-                cnImg.appendChild(im);
-
-                let cnM = document.createElement("div");
-                cnM.classList.add("containerLike");
-                cnM.style.backgorundColor = "White";
+                let container = createCustomElement("div",
+                {
+                    "class":"modal-imagen",
+                    "style":"display = flex;"
+                },[containerImage,containerLike]);
                 
-                let titlee = document.createElement("h3");
-                titlee.textContent = 'Usuarios que dieron like';
-
-                cnM.appendChild(titlee);
-
-                let container2 = document.createElement("div");
-                container2.classList.add("container-user");
-                let ul = document.createElement("ul");
-                ul.setAttribute("class", "list-users");
-                container2.appendChild(ul);
-                cnM.appendChild(container2);
-
-                im.src = elementP.src;
-                im.alt = elementP.alt;
-
-                container.appendChild(cnImg);
-                container.appendChild(cnM);
-
-                //creamos el modal
+                //Instanciamos un objeto de tipo modal, y le pasamos el container
+                //el cuál contendrá toda nuesto contenido de las imagenes y los usuarios
+                //que dieron like a esa determinada publicación
                 let modalm = new Modal(null, container, null, true, false);
                 modalm.open();
                 modalm.container.firstElementChild.style.maxWidth = "100%";
@@ -178,7 +174,7 @@ const openModalImg = (p) => {
                 AJAX.ajax(request).then((response) => {
                     let json = JSON.parse(response.responseText);
                     console.log(json);
-                    printUsersLikes(json.usuarios,ul);
+                    printUsersLikes(json.usuarios, listaUsers);
                 }).catch((reject) => {
                     console.log(reject);
                 });
@@ -187,12 +183,12 @@ const openModalImg = (p) => {
         });
     }
 
-    const printUsersLikes = (users,listContainer) => {
+    const printUsersLikes = (users, listContainer) => {
         let fragment = document.createDocumentFragment();
         console.log(users);
         users.forEach(e => {
             let li = document.createElement("li");
-            li.setAttribute("class","user-item");
+            li.setAttribute("class", "user-item");
             li.innerHTML = `
                     <div class="flex">
                         <img class="user-img-like" src=${e.url} alt=${e.username}></img>
@@ -201,8 +197,8 @@ const openModalImg = (p) => {
             `;
             fragment.appendChild(li);
         });
-        
-        listContainer.appendChild(fragment);        
+
+        listContainer.appendChild(fragment);
     };
 
 };
