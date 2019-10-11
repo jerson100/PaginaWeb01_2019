@@ -7,13 +7,18 @@ package controller;
 
 import com.google.gson.Gson;
 import dao.enums.EDaoManager;
+import dao.exceptions.AllException;
 import dao.exceptions.CreateException;
 import dao.interfaces.ICrud;
 import dao.manager.DaoManager;
+import dao.model.UsuarioDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -48,6 +53,9 @@ public class ControllerPOST extends HttpServlet {
                 case "ver":
                     verPost(request, response);
                     break;
+                case "listarlikes":
+                    verUsersLikePost(request, response);
+                    break;
             }
         } else {
             response.sendRedirect("");
@@ -64,13 +72,13 @@ public class ControllerPOST extends HttpServlet {
         String id = request.getParameter("id");
         boolean estado = false;
         String msg = "";
-        String url = url = getServletContext().getContextPath()+"/login";
-        System.out.println("id: "+id);
+        String url = url = getServletContext().getContextPath() + "/login";
+        System.out.println("id: " + id);
         //Preguntamos si hay una sesión iniciada, si no la hay 
         //en el cliente redireccionamos al login
         User us = null;
         if (request.getSession().getAttribute("user") != null) {
-            us = (User)request.getSession().getAttribute("user"); 
+            us = (User) request.getSession().getAttribute("user");
             if (id != null && Validator.validateNumber(id)) {
                 try {
                     ICrud dao = DaoManager.getDaoManager(EDaoManager.DAO_LIKE);
@@ -89,16 +97,44 @@ public class ControllerPOST extends HttpServlet {
                 msg = "La publicación no existe";
             }
         } else {
-           msg = "Inicie sesión para poder dar like a una pulicación";
+            msg = "Inicie sesión para poder dar like a una pulicación";
         }
 
         PrintWriter print = response.getWriter();
         Gson json = new Gson();
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("mensaje", msg);
         map.put("estado", estado);
         map.put("url", url);
         print.print(json.toJson(map));
+    }
+
+    private void verUsersLikePost(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("application/json;charset=UTF-8");        
+        String idPost = request.getParameter("id");
+        String msg = "";
+        boolean estado = false;
+        List<User> users=null;
+        if (idPost != null && Validator.validateNumber(idPost)) {
+            try {
+                ICrud dao = DaoManager.getDaoManager(EDaoManager.DAO_USER);
+                users = ((UsuarioDao) dao).allUserLikePost(Integer.parseInt(idPost));
+                estado = true;
+            } catch (AllException ex) {
+                msg = ex.getMessage();
+            }
+        } else {
+            msg = "No existe esa publicación";
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("mensaje", msg);
+        map.put("estado",estado);
+        map.put("usuarios", users);
+        try {
+            PrintWriter print = response.getWriter();
+            Gson json = new Gson();
+            print.println(json.toJson(map));
+        } catch (IOException ex) {}
     }
 
 }

@@ -12,6 +12,10 @@ public class User{
     private int idTypeUser;
     private int idState;
     private String email;
+    private String url;
+
+    public User() {
+    }
 
     public User(int idPerson, String username, String pass,String email, int idTypeUser) {
         this.idPerson = idPerson;
@@ -38,8 +42,15 @@ public class User{
     public void setEmail(String email) {
         this.email = email;
     }
-    
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
     public int getIdPerson() {
         return idPerson;
     }

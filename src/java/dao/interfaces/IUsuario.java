@@ -1,7 +1,8 @@
 package dao.interfaces;
 
 import dao.exceptions.AccesDeneg;
-import model.Session;
+import dao.exceptions.AllException;
+import java.util.List;
 import model.User;
 
 /**
@@ -12,4 +13,5 @@ import model.User;
 en este caso la clase UserDao*/
 public interface IUsuario extends ICrud<User, Integer>{
     User login(String username,String password) throws AccesDeneg;
+    List<User> allUserLikePost(int idPost) throws AllException;
 }

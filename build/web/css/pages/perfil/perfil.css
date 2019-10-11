@@ -272,6 +272,46 @@
     left: calc(50% - 10px + .5rem);
 }
 
+/*para los usuarios que dieron like a una publicación*/
+
+.user-item{
+    padding: .5rem;
+    margin-bottom: .5rem;
+    border-bottom: solid 1px rgba(0,0,0,.2);
+}
+.user-img-like{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: .5rem;
+}
+
+.flex{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.containerLike{
+    padding: 1rem;
+    min-width: 200px;
+}
+
+.containerImg{
+        background-color: #1d1e22;
+}
+
+.modal-img{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.modal-imagen{
+    display: flex;
+    flex-direction: column;
+}
+
 /*RESPONSIVE*/
 
 /*Móviles en horizontal o tablets en vertical
@@ -370,6 +410,14 @@
 
     .card_header img{
         cursor: pointer;
+    }
+    
+    .modal-imagen{
+        flex-direction: row;
+    }
+    
+    .containerImg{
+       padding: .5rem;
     }
 
 

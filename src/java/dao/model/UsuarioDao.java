@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,24 +23,25 @@ import model.User;
  *
  * @author Jerson
  */
-public class UsuarioDao implements IUsuario{
+public class UsuarioDao implements IUsuario {
 
     private ConnectionMysql connection;
     private Connection conn;
     private PreparedStatement pr;
     private CallableStatement ct;
     private ResultSet rs;
-    
-    public UsuarioDao(){}
-    
+
+    public UsuarioDao() {
+    }
+
     /**
      * Nos permite crear Objetos de tipo usuario y almacenar en la bd
+     *
      * @param username
      * @param password
-     * @return 
+     * @return
      * @throws dao.exceptions.AccesDeneg
      */
-    
     @Override
     public User login(String username, String password) throws AccesDeneg {
         User us = null;
@@ -48,11 +50,11 @@ public class UsuarioDao implements IUsuario{
         try {
             ct = conn.prepareCall("{call sp_login(?,?)}");
             ct.setString(1, username);
-            ct.setString(2, password);  
+            ct.setString(2, password);
             rs = ct.executeQuery();
-            if(rs.next()) {
-                us = new User(rs.getInt(1),username, password,rs.getInt(2), rs.getInt(3), rs.getString(4));
-            }else{
+            if (rs.next()) {
+                us = new User(rs.getInt(1), username, password, rs.getInt(2), rs.getInt(3), rs.getString(4));
+            } else {
                 throw new AccesDeneg("Acceso denegado");
             }
         } catch (SQLException e) {
@@ -62,7 +64,7 @@ public class UsuarioDao implements IUsuario{
         }
         return us;
     }
-    
+
     @Override
     public void create(User o) throws CreateException {
         connection = ConnectionMysql.getInstance();
@@ -74,18 +76,18 @@ public class UsuarioDao implements IUsuario{
             ct.setString(3, o.getEmail());
             ct.setInt(4, o.getIdTypeUser());
             rs = ct.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 o.setIdPerson(rs.getInt(1));
-            }else{
-               throw new CreateException("No se pudo crear al usuario");
+            } else {
+                throw new CreateException("No se pudo crear al usuario");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new CreateException("No se pudo crear el usuario");
-        } finally{
+        } finally {
             cerrarConexiones();
         }
-        
+
     }
 
     @Override
@@ -97,14 +99,14 @@ public class UsuarioDao implements IUsuario{
             pr = conn.prepareStatement("select * from vusers where idUser=?");
             pr.setInt(1, id);
             rs = pr.executeQuery();
-            if(rs.next()){
-                us = new User(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getString(4),rs.getInt(5));
-            }else{
+            if (rs.next()) {
+                us = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+            } else {
                 throw new ReadException("No se encontró el usuario");
             }
         } catch (SQLException e) {
             throw new ReadException("No se encontró el usuario");
-        } finally{
+        } finally {
             cerrarConexiones();
         }
         return us;
@@ -121,12 +123,12 @@ public class UsuarioDao implements IUsuario{
             ct.setString(3, o.getPass());
             ct.setString(4, o.getEmail());
             ct.setInt(5, o.getIdTypeUser());
-            if(ct.executeUpdate()==0){
+            if (ct.executeUpdate() == 0) {
                 throw new UpdateException("No se pudo actualizar el usuario");
             }
         } catch (SQLException ex) {
             throw new UpdateException("No se pudo actualizar el usuario");
-        } finally{
+        } finally {
             cerrarConexiones();
         }
         return true;
@@ -144,32 +146,35 @@ public class UsuarioDao implements IUsuario{
 
     private void cerrarConexiones() {
         connection.close();
-        if(pr!=null){
+        if (pr != null) {
             try {
                 pr.close();
                 pr = null;
-            } catch (SQLException ex) {}
+            } catch (SQLException ex) {
+            }
         }
-        if(rs!=null){
+        if (rs != null) {
             try {
                 rs.close();
                 rs = null;
-            } catch (SQLException ex) {}
+            } catch (SQLException ex) {
+            }
         }
-        if(ct!=null){
+        if (ct != null) {
             try {
                 ct.close();
                 ct = null;
-            } catch (SQLException ex) {}
+            } catch (SQLException ex) {
+            }
         }
-        if(conn!=null){
+        if (conn != null) {
             try {
                 conn.close();
                 conn = null;
             } catch (SQLException ex) {
                 Logger.getLogger(UsuarioDao.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }
 
@@ -177,5 +182,40 @@ public class UsuarioDao implements IUsuario{
     public List<User> all(Integer id) throws AllException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public List<User> allUserLikePost(int idPost) throws AllException {
+        List<User> users = new ArrayList<>();
+        connection = ConnectionMysql.getInstance();
+        try {
+            conn = connection.connect();
+            ct = conn.prepareCall("call sp_allUserLikePost(?)");
+            ct.setInt(1, idPost);
+            rs = ct.executeQuery();
+            if (rs.next()) {
+                User us = new User();
+                us.setIdPerson(rs.getInt(1));
+                us.setUsername(rs.getString(2));
+                us.setIdTypeUser(rs.getInt(3));
+                us.setUrl(rs.getString(4));
+                users.add(us);
+                while (rs.next()) {
+                    us = new User();
+                    us.setIdPerson(rs.getInt(1));
+                    us.setUsername(rs.getString(2));
+                    us.setIdTypeUser(rs.getInt(3));
+                    us.setUrl(rs.getString(4));
+                    users.add(us);
+                }
+            } else {
+                throw new AllException("Aún no han dado like a esa publicación");
+            }
+        } catch (SQLException ex) {
+            throw new AllException("Aún no han dado like a esa publicación");
+        } finally {
+            cerrarConexiones();
+        }
+        return users;
+    }
+
 }

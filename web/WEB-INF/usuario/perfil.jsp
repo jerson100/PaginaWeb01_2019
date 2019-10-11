@@ -117,7 +117,8 @@
                             <div class="container-card">
                                 <article class="card_article">
                                     <header class="card_header">
-                                        <h3 class="card_title t4"><a href="html/ejercicios_basicos/ejercicio1.html"><%=objP.getTitle()%></a></h3><img class="card-img-post" src="<%=objP.getUrlImage()%>" alt="<%=objP.getTitle()%>"/>
+                                        <h3 class="card_title t4"><a href="html/ejercicios_basicos/ejercicio1.html"><%=objP.getTitle()%></a></h3>
+                                        <img class="card-img-post" src="<%=objP.getUrlImage()%>" alt="<%=objP.getTitle()%>"/>
                                         <div class="like-post">
                                             <span>
                                                 <%=objP.getCountLikes()%>
@@ -276,5 +277,6 @@
         <script src="js/view-profile-update.js.js" type="text/javascript"></script>
         <%}%>
         <script src="https://kit.fontawesome.com/56e0c4d4ed.js"></script>
+        <script src="js/utils/elements.js" type="text/javascript"></script>
     </body>
 </html>

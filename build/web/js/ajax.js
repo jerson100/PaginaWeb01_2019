@@ -12,7 +12,14 @@ class AJAX {
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             }
             xhr.addEventListener('load', response => {
-                resolve(response.target); //resuelve la promesa
+                console.log(response.target.status);
+                if(response.target.status===200){
+                    
+                    resolve(response.target)
+                }else{
+                    reject(response.target);
+                }
+                //resolve(response.target); //resuelve la promesa
             });
             xhr.send(request.data);
         });
