@@ -274,10 +274,45 @@
 
 /*para los usuarios que dieron like a una publicación*/
 
+
+/*container right*/
+.containerLike{
+    padding: 1rem;
+    min-width: 200px;
+}
+
+.containerLike a{
+    color: #385898;
+}
+
+.post-user_img{
+    margin-right: .5rem;
+}
+
+.post-user_img img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.post-details-container .post-details-inner{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.5rem;
+}
+
+.post-details-inner{
+    align-items: center;
+}
+
+.container-countlikes{
+    margin-bottom: 1.2rem;
+}
+
 .user-item{
-    padding: .5rem;
+    padding: 1rem 0;
     margin-bottom: .5rem;
-    border-bottom: solid 1px rgba(0,0,0,.2);
+    border-bottom: solid 1px rgba(0,0,0,.08);
 }
 .user-img-like{
     width: 30px;
@@ -292,21 +327,43 @@
     justify-content: left;
     align-items: center;
 }
-
-.containerLike{
-    padding: 1rem;
-    min-width: 200px;
+.post_info_username{
+    font-weight: 600;
+    font-family: Helvetica;
+    color:#385898;
 }
 
+.post_info_hours{
+    font-size: .8em;
+    color: #a0a0a0;
+}
+
+.container-users a{
+    color: #385898;
+}
+
+/*continer left*/
 .containerImg{
-        background-color: #1d1e22;
-        position: relative;
+    background-color: var(--dark-color-alt);
+    position: relative;
+}
+
+.container-details{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    color: var(--color-light);
+    width: 100%;
+    background-color: var(--color-text);
+}
+
+.post-details-username{
+    margin-left: .5rem;
 }
 
 .containerImg .img-user-post{
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -428,10 +485,22 @@
     .modal-imagen{
         flex-direction: row;
     }
-    
     .containerImg{
-       padding: .5rem;
+        background-color: var(--dark-color-alt);
+        position: relative;
+        display: flex;
+        align-items: center;
     }
 
+    .container-users{
+        max-height: calc(100vh - 20rem);
+        min-height: 520px;
+        overflow-y: auto;
+    }
 
+    
+    .containerLike {
+       min-width: 300px;
+    }
+    
 }

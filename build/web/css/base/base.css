@@ -73,3 +73,13 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
+body::-webkit-scrollbar{
+    width: 13px;
+    background-color: var(--color-dark);
+}
+
+body::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background-color: var(--color-second);
+}

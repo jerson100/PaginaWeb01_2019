@@ -4,12 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Jerson/Documents/NetBeansProjects/ProyectoWeb01/web/WEB-INF/usuario/perfil.jsp</file>
-            <file>file:/C:/Users/Jerson/Documents/NetBeansProjects/ProyectoWeb01/web/css/pages/perfil/perfil.css</file>
             <file>file:/C:/Users/Jerson/Documents/NetBeansProjects/ProyectoWeb01/src/java/controller/ControllerPOST.java</file>
             <file>file:/C:/Users/Jerson/Documents/NetBeansProjects/ProyectoWeb01/web/js/utils/elements.js</file>
             <file>file:/C:/Users/Jerson/Documents/NetBeansProjects/ProyectoWeb01/src/java/controller/ControllerProfile.java</file>
-            <file>file:/C:/Users/Jerson/Documents/NetBeansProjects/ProyectoWeb01/web/js/utils/modal.js</file>
             <file>file:/C:/Users/Jerson/Documents/NetBeansProjects/ProyectoWeb01/src/java/dao/model/UsuarioDao.java</file>
+            <file>file:/C:/Users/Jerson/Documents/NetBeansProjects/ProyectoWeb01/web/js/utils/modal.js</file>
         </group>
     </open-files>
 </project-private>

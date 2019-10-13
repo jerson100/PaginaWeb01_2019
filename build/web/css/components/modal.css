@@ -57,8 +57,7 @@
 
 
 .modal-container{
-   background-color: 
-#1d1e22;
+   background-color: rgba(0,0,0,.8);
   z-index: 10000;
   position: fixed;
   top: 0;
