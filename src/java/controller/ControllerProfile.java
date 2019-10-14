@@ -197,7 +197,7 @@ public class ControllerProfile extends HttpServlet {
             response.sendRedirect("");
         }
     }
-
+//comments222
     private void publicar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Part img = request.getPart("img");
         System.out.println(img);
