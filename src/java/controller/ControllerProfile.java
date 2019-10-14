@@ -199,7 +199,6 @@ public class ControllerProfile extends HttpServlet {
     }
 
     private void publicar(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
         Part img = request.getPart("img");
         System.out.println(img);
         String titulo = request.getParameter("titulo");
@@ -227,6 +226,7 @@ public class ControllerProfile extends HttpServlet {
                             estado = true;
                             url = getServletContext().getContextPath() + "/perfil?id=" + ((User) request.getSession().getAttribute("user")).getIdPerson();
                         } catch (CreateException ex) {
+                            ex.printStackTrace();
                             msg = ex.getMessage();
                         }
                     } else {
@@ -304,7 +304,8 @@ public class ControllerProfile extends HttpServlet {
             if (request.getSession().getAttribute("user") != null) {
                 us = (User) request.getSession().getAttribute("user");
                 InputStream input = null;
-                if (img != null && img.getSubmittedFileName() != null) {
+                System.out.println(img.getSubmittedFileName());
+                if (img != null && img.getSubmittedFileName() != null && !img.getSubmittedFileName().isEmpty()) {
                     if (img.getSize() > 0) {
                         String file = img.getSubmittedFileName();
                         String extension;
@@ -362,9 +363,9 @@ public class ControllerProfile extends HttpServlet {
                                 //si todo va bien hasta ese momento, entonces subimos la imagen al directorio
                                 if(input!=null){
                                     guardarImagenDeProdructoEnElSistemaDeFicheros(input, urldirectorioImagenUsuario);
+                                    request.getSession().setAttribute("urlProfile",urlImagenUser);
                                 }
                                 msg = "Perfil actualizado";
-                                request.getSession().setAttribute("urlProfile",urlImagenUser);
                                 estado = true;
                                 url = getServletContext().getContextPath()+"/perfil?id="+us.getIdPerson();
                             } catch (UpdateException e) {

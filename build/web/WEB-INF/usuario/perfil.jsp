@@ -262,6 +262,7 @@
         </footer>
         <script src="js/toogle.js"></script>
         <script>toogleButton('icon', 'navigation', 'active')</script>
+        <script>toogleButton('user-arrow' , 'user-acces', 'active-profile-user')</script>
         <script src="js/vistaCards.js"></script>
         <script src="js/utils/modal.js" type="text/javascript"></script>
         <script>

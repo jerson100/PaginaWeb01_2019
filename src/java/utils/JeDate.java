@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
  * @author Jerson
  */
 public class JeDate {
-    
+
     public static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/MM/YYYY");
-    
+
 }

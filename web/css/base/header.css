@@ -88,6 +88,18 @@
 .container-perfil{
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+
+}
+
+.user-acces{
+    transform: scale(0) translateY(-400%);
+    transition: transform 1s;
+    transform-origin: top center;
+}
+
+.active-profile-user{
+    transform: scale(1);
 }
 
 .container-perfil img{
@@ -104,18 +116,12 @@
 }
 
 .user-acces{
-    position: absolute;
-    bottom: -82px;
-    width: 100px;
-    right: 0;
-    transform-origin: top right;
-    transform: scale(0);
-    transition: transform 200ms;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    flex-basis: 100%;
 }
 
-.container-perfil:hover .user-acces{
-    transform: scale(1)
-}
 
 
 /*
@@ -164,6 +170,22 @@
         padding: .5rem;
         text-align: center;
     }
+
+    .user-acces{
+        position: absolute;
+        bottom: -82px;
+        width: 100px;
+        right: 0;
+        transform-origin: top right;
+        transform: scale(0);
+        transition: transform 200ms;
+    }
+
+
+    .container-perfil:hover .user-acces{
+        transform: scale(1)
+    }
+
 
 
 }
