@@ -150,7 +150,7 @@
                                                 </div>
                                                 <a class="card_autor_name underline small" href="html/jerson.html"><%=us.getUsername()%></a>
                                             </div>
-                                            <div class="card_footer_fecha"><span class="small"><%=JeDate.FORMAT.format(objP.getDatePost())%></span></div>
+                                            <div class="card_footer_fecha"><span class="small"><%=JeDate.getTime(objP.getDatePost())%></span></div>
                                         </div>
                                     </footer>
                                 </article>

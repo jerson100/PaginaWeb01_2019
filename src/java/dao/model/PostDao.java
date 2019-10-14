@@ -81,7 +81,7 @@ public class PostDao implements IPost {
                 l.setIdUser(rs.getInt(2));
                 l.setTitle(rs.getString(3));
                 l.setUrlImage(rs.getString(4));
-                l.setDatePost(new Date(rs.getDate(5).getTime()));
+                l.setDatePost(new Date(rs.getTimestamp(5).getTime()));
                 l.setCountLikes(rs.getInt(6));
                 post.add(l);
                 while (rs.next()) {
@@ -90,7 +90,7 @@ public class PostDao implements IPost {
                     l.setIdUser(rs.getInt(2));
                     l.setTitle(rs.getString(3));
                     l.setUrlImage(rs.getString(4));
-                    l.setDatePost(new Date(rs.getDate(5).getTime()));
+                    l.setDatePost(new Date(rs.getTimestamp(5).getTime()));
                     l.setCountLikes(rs.getInt(6));
                     post.add(l);
                 }
