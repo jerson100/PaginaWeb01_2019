@@ -17,6 +17,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="css/base/base.css" rel="stylesheet" type="text/css"/>
         <link href="css/theme/colors.css" rel="stylesheet" type="text/css"/>
+        <link href="css/components/buttons.css" rel="stylesheet" type="text/css"/>
         <link href="css/theme/fonts.css" rel="stylesheet" type="text/css"/>
         <link href="css/theme/typography.css" rel="stylesheet" type="text/css"/>
         <link href="css/layout/layout.css" rel="stylesheet" type="text/css"/>
