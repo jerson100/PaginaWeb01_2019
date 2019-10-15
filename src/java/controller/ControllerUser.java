@@ -28,8 +28,8 @@ public class ControllerUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.getSession().removeAttribute("url");
         request.getRequestDispatcher("WEB-INF/usuario/registro.jsp").forward(request, response);
-
     }
 
     @Override

@@ -32,6 +32,7 @@ public class ControllerLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
     }
 
@@ -61,8 +62,6 @@ public class ControllerLogin extends HttpServlet {
             }else {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", us);
-                
-                
                 String urlProfile = null;
                 try {
                     urlProfile = ((ProfileDao)perfilDao).getImageProfile(us.getIdPerson());
@@ -72,7 +71,13 @@ public class ControllerLogin extends HttpServlet {
                 //response.sendRedirect("/ProyectoWeb01");
                 msg =  "Bienvenido";
                 acc = true;
-                url =  getServletContext().getContextPath();
+                String urlprev = (String)session.getAttribute("url");//url prev
+                if(urlprev!=null){
+                    url = urlprev;
+                    session.removeAttribute("url");
+                }else{
+                    url = "";
+                }
             }
         } catch (AccesDeneg ex) {
             //request.getSession().setAttribute("mensaje", ex.getMessage());

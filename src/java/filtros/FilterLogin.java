@@ -9,7 +9,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,20 +18,19 @@ import model.User;
  *
  * @author Jerson
  */
-@WebFilter(filterName = "FilterLogin", urlPatterns = {"/login"}, initParams = {
+@WebFilter(filterName = "FilterLogin", urlPatterns = {"/login", "/chat"}, initParams = {
     @WebInitParam(name = "Name", value = "Value")})
 public class FilterLogin implements Filter {
-    
+
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-    
+
     public FilterLogin() {
-    }    
-    
+    }
 
     /**
      *
@@ -46,17 +44,34 @@ public class FilterLogin implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        
+
         //verificamos si hay una sesión activa
         //si la hay no dejamos que el usuario acceda al login
-        HttpSession session = ((HttpServletRequest)request).getSession();
-        
-        if(session.getAttribute("user")!=null){
-          ((HttpServletResponse)response).sendRedirect("");
-        }else{
-           chain.doFilter(request, response);  
+        HttpSession session = ((HttpServletRequest) request).getSession();
+        String redirect = ((HttpServletRequest) request).getRequestURL().toString();
+
+        String path = redirect.substring(redirect.lastIndexOf("/")+1);
+
+        System.out.println("-> " + path);
+
+        switch (path) {
+            case "login":
+                if (session.getAttribute("user") != null) {
+                    ((HttpServletResponse) response).sendRedirect("");
+                } else {
+                    chain.doFilter(request, response);
+                }
+                break;
+            case "chat":
+                if (session.getAttribute("user") != null) {
+                    chain.doFilter(request, response);
+                } else {
+                    session.setAttribute("url", redirect);
+                    ((HttpServletResponse) response).sendRedirect("login");
+                }
+                break;
         }
-        
+
     }
 
     /**
@@ -78,16 +93,16 @@ public class FilterLogin implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {        
+    public void destroy() {
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {        
+    public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {                
+            if (debug) {
                 log("FilterLogin:Initializing filter");
             }
         }
@@ -106,11 +121,9 @@ public class FilterLogin implements Filter {
         sb.append(")");
         return (sb.toString());
     }
-    
-    
-    
+
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
+        filterConfig.getServletContext().log(msg);
     }
-    
+
 }
