@@ -19,7 +19,6 @@ public class JeDate {
     //nos devuelve la fecha formateada
     //para saber cuanto tiempo a pasado de una fecha a otra
     public static String getTime(Date fechaPublicación){
-        System.out.println("pu: "+fechaPublicación +", ac: "+new Date());
         Date fechaActual = new Date();
         //1s = 1000ms
         long timeSeconds = (fechaActual.getTime() -

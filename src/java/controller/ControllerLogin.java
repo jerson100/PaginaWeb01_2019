@@ -84,7 +84,6 @@ public class ControllerLogin extends HttpServlet {
         dat.put("acceso", acc);
         dat.put("url", url);
         out.println(json.toJson(dat));
-
     }
 
 }
