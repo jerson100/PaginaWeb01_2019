@@ -24,6 +24,7 @@
         <link href="css/base/header.css" rel="stylesheet" type="text/css"/>
         <link href="css/components/loader.css" rel="stylesheet" type="text/css"/>
         <link href="css/pages/chat/chat.css" rel="stylesheet" type="text/css"/>
+        <link href="css/components/modal.css" rel="stylesheet" type="text/css"/>
         <title>Chat</title>
     </head>
     <body>
@@ -64,6 +65,7 @@
             </div>
         </div>
         <jsp:include page="../includes/footer.jsp"></jsp:include>
+        <script src="js/utils/modal.js" type="text/javascript"></script>
         <script src="js/toogle.js" type="text/javascript"></script>
         <script src="js/utils/elements.js" type="text/javascript"></script>
         <script>
@@ -173,6 +175,10 @@
                     case 'blur-writing':
                         blurWriting();
                         break;
+                    case 'disconect':
+                        mostrarModal(dat.message,dat.user);
+                        printAllUsers(dat.users);
+                        break;
                 }
             };
             
@@ -246,8 +252,19 @@
                 });
                 contactosActivos.innerHTML = "";
                 contactosActivos.appendChild(documentF);
-            }
+            };
             
+            
+            const mostrarModal = (message,user)=>{
+                let msgError = document.querySelector(".modal-msg");
+                let modal;
+                if (msgError !== null)document.body.removeChild(msgError);
+                modal = new ModalMensajeSuccess(user.username+ " " + message.messageTxt, false);
+                setTimeout(()=>{
+                    document.body.removeChild(modal.container);
+                },2000);
+                modal.open("msg-normal-open-text");
+            };
         </script>
         <script src="js/toogle.js"></script>
         <script>toogleButton('icon', 'navigation', 'active');</script>

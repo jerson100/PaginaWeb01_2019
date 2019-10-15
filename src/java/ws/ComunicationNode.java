@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -101,15 +102,31 @@ public class ComunicationNode {
     @OnClose
     public void onClose(Session session) {
         s.remove(session);
+        User us = (User)session.getUserProperties().get("user");
+        Message ms = new Message(0, us.getIdPerson(), 0, "Cerró sesión", new Date(), "disconect");
+        Data dat = new Data();
+        dat.setMessage(ms);
+        dat.setUser(us);
+        dat.setUsers(allUsers());
+        s.forEach(user ->{
+            try {
+                user.getBasicRemote().sendText(JSON.toJson(dat));
+            } catch (IOException ex) {}
+        });
+        
     }
     
-    private void mostrarUsuarios(){
+    private List<User> allUsers(){
         List<User> users = new ArrayList<>();
         s.forEach(user->{
             Map<String,Object> map = user.getUserProperties();
-            System.out.println(map.get("user"));
             users.add((User)map.get("user"));
         });
+        return users;
+    }
+    
+    private void mostrarUsuarios(){
+        List<User> users = allUsers();
         //enviamos los usuarios disponibles a todos
         Data dat = new Data();
         dat.setMessage(new Message(0, 0, 0, "listado users", null, "listar"));
