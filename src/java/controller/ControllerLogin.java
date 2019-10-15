@@ -61,13 +61,15 @@ public class ControllerLogin extends HttpServlet {
                 acc = false;
             }else {
                 HttpSession session = request.getSession(true);
-                session.setAttribute("user", us);
+                
                 String urlProfile = null;
                 try {
                     urlProfile = ((ProfileDao)perfilDao).getImageProfile(us.getIdPerson());
                 } catch (ReadException e) {
                 }
                 session.setAttribute("urlProfile", urlProfile);//obtener la imagen de la bd del usuario
+                us.setUrl(urlProfile);
+                session.setAttribute("user", us);
                 //response.sendRedirect("/ProyectoWeb01");
                 msg =  "Bienvenido";
                 acc = true;
