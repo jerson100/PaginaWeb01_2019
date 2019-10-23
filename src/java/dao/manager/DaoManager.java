@@ -3,6 +3,7 @@ package dao.manager;
 import dao.enums.EDaoManager;
 import dao.interfaces.IConnection;
 import dao.interfaces.ICrud;
+import dao.model.ComentarioDao;
 import dao.model.CountryDao;
 import dao.model.LikeDao;
 import dao.model.PostDao;
@@ -42,6 +43,8 @@ public class DaoManager {
                  return new PostDao();
              case DAO_LIKE:
                  return new LikeDao();
+             case DAO_Comentarios:
+                 return new ComentarioDao();
          }
          return null;
      }

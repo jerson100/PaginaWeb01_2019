@@ -1,4 +1,4 @@
-createCustomElement = (type, attributes, childreen) => {
+const createCustomElement = (type, attributes, childreen) => {
     let element = document.createElement(type);
     if (childreen) {
         childreen.forEach(child => {
@@ -15,7 +15,7 @@ createCustomElement = (type, attributes, childreen) => {
     return element;
 };
 
-createCustomElementClass = (type, allclass, childreen) => {
+const createCustomElementClass = (type, allclass, childreen) => {
     let element = document.createElement(type);
     if (childreen) {
         childreen.forEach(child => {

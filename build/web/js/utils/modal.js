@@ -1,3 +1,5 @@
+/* global AJAX */
+
 'use strict';
 
 class Modal {
@@ -126,6 +128,9 @@ const openModalImg = (p) => {
         padre.addEventListener('click', e => {
             let elementP = e.target;//elemento pulsado
             if (elementP.tagName === 'IMG') {
+                if(document.querySelector(".container-details")!==null){
+                    document.body.removeChild(document.querySelector(".container-details"));
+                }
 
                 let footer = elementP.parentElement.nextElementSibling;
 
@@ -160,13 +165,24 @@ const openModalImg = (p) => {
                                             <path d="M0,40.045H2.909V31.318H0Zm16-8a1.459,1.459,0,0,0-1.455-1.455H9.964l.727-3.345v-.218a1.525,1.525,0,0,0-.291-.8L9.6,25.5,4.8,30.3a1.22,1.22,0,0,0-.436,1.018v7.273a1.459,1.459,0,0,0,1.455,1.455h6.545a1.437,1.437,0,0,0,1.309-.873l2.182-5.164a1.238,1.238,0,0,0,.073-.509V32.045H16Z" transform="translate(0.5 -24.81)"></path>
                                     </svg>
                                     ${elementP.nextElementSibling.firstElementChild.textContent}
-                                </span>
+                                </span>     
                             </div>
+                            <h2 style="pading: 1rem 0;">Comentarios</h2>
                             <div class="container-users">
-                                <ul class="list-users">
+                                <!--<ul class="list-users">
                                     <div class='loader-container loader-inter' id="loaderLike"></div>
-                                </ul>
+                                </ul>-->
+                                <!-- Contenedor Principal -->
+                                <!-- Contenedor Principal -->
+                                <div class="comments-container">
+                                    <ul id="comments-list" class="comments-list">
+                                    </ul>
+                                </div>
                             </div>
+                            <div class="comment-post">
+                                <input type="text" placeholder="comenta algo">
+                                <i class="fas fa-chevron-right" id="send-comment"></i>
+                            </div>    
                         </div>
                     </div>
                 `;
@@ -180,13 +196,20 @@ const openModalImg = (p) => {
                 modalm.open();
                 modalm.container.firstElementChild.style.maxWidth = "100%";
                 modalm.container.firstElementChild.style.padding = "0";
-                modalm.container.firstElementChild.style.margin = "1rem 2rem";
+                modalm.container.classList.add("container-details");
+                
+                console.log(modalm.container);
+                console.log("Pruebasss");
+                
+                /*modalm.container.firstElementChild.style.margin = "1rem 2rem";*/
                 document.body.classList.add("scrollOff");
 
-                let loader = document.getElementById("loaderLike");
-                loader.classList.add("loader-active");
+                sendComment(document.getElementById("send-comment"), e.target.nextElementSibling.lastElementChild.textContent);//cuando quiera publicar
+
+                /*let loader = document.getElementById("loaderLike");
+                 loader.classList.add("loader-active");*/
                 let dat = new FormData();
-                dat.append("accion", "listarlikes");
+                dat.append("accion", "detallePost");
                 dat.append("id", e.target.nextElementSibling.lastElementChild.textContent);
                 let request = {
                     method: 'Post',
@@ -196,16 +219,60 @@ const openModalImg = (p) => {
                 };
                 AJAX.ajax(request).then((response) => {
                     let json = JSON.parse(response.responseText);
-                    return printUsersLikes(json.usuarios, lista_users);
+                    console.log(json);
+                    printComments(json);
+                    /*return printUsersLikes(json.usuarios, lista_users);*/
                 }).then(() => {//luego de realizar la petición y pintar quitamos el loader
-                    loader.classList.remove("loader-active");
+                    /*loader.classList.remove("loader-active");*/
                 }).catch((error) => {
-                    loader.classList.remove("loader-active");
-                    console.log("error: " + error);
+                    /*loader.classList.remove("loader-active");
+                     console.log("error: " + error);*/
                 });
             }
         });
     }
+
+    const printComments = (json) => {
+        if (json.estado) {
+            //agregamos los comentarios
+            let users = json.allComments;
+            let container = document.getElementById("comments-list");
+            let fragment = document.createDocumentFragment();
+            users.forEach(us => {
+                let inner = `
+                        <div class="comment-main-level" id="comment-${us.idComentario}">
+                            <!-- Avatar -->
+                            <div class="comment-avatar"><img src=${us.user.url} alt=${us.user.username}></div>
+                            <!-- Contenedor del Comentario -->
+                            <div class="comment-box">
+                                <div class="comment-head">
+                                    <h6 class="comment-name by-author"><a href=perfil?id=${us.user.idPerson}>${us.user.username}</a></h6>
+                                        <span>${us.fecha}</span>
+                                        <i class="fa fa-heart"></i>
+                                </div>
+                                <div class="comment-content">
+                                    ${us.texto}
+                                </div>
+                                <button class="response button" style="
+                                                                        color: white;
+                                                                        background: #03658c;
+                                                                        background: background: #03658c;
+                                                                        /* padding: 12px; */
+                                                                        margin-left: 12px;
+                                                                        margin-bottom: 12px;
+                                                                         ">
+                                                                            responser
+                                </button>
+                             </div>
+                        </div>
+                `;
+                
+                let item = createCustomElement("li",{"class":"list-level"},[inner]);
+                fragment.appendChild(item);
+            });
+            container.appendChild(fragment);
+        }
+    };
 
     const printUsersLikes = (users, listContainer) => {
         return new Promise((resolve, reject) => {
@@ -248,5 +315,90 @@ const openModalImg = (p) => {
             }
         });
     };
+
+    const sendComment = (send, idPost) => {
+        send.addEventListener('click', e => {
+            let parent = send.previousElementSibling;//hermano anterior(input)
+            let texto = parent.value;
+            let dat = new FormData();
+            dat.append("accion", "comment");
+            dat.append("id", idPost);
+            dat.append("texto", texto);
+            let request = {
+                method: 'Post',
+                url: 'post',
+                multipart: true,
+                data: dat
+            };
+            AJAX.ajax(request).then((response) => {
+                let json = JSON.parse(response.responseText);
+                console.log(json);
+                if(json.url){
+                    location.href = json.url;
+                }else{
+                    printUser(json,texto);
+                }
+            });
+        });
+    }
+    
+    const redirect = (json,url) =>{
+        return new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                //creamos el modal 
+                let modalM = new ModalMensajeError(json.mensaje);
+            },2000);
+        });
+    };
+    
+    const printUser = (json,texto)=>{
+        
+        if(json.estado){
+            
+            let us = json.user;
+            let container = document.getElementById("comments-list");
+            let fragment = document.createDocumentFragment();
+            let inner = `
+                    <div class="comment-main-level">
+                            <!-- Avatar -->
+                            <div class="comment-avatar"><img src=${us.url} alt=${us.username}></div>
+                            <!-- Contenedor del Comentario -->
+                            <div class="comment-box">
+                                <div class="comment-head">
+                                    <h6 class="comment-name by-author"><a href=perfil?id=${us.idPerson}>${us.username}</a></h6>
+                                        <span>Hace instantes</span>
+                                        <i class="fa fa-heart"></i>
+                                </div>
+                                <div class="comment-content">
+                                    ${texto}
+                                </div>
+                                <button class="response button" style="
+                                                                        color: white;
+                                                                        background: #03658c;
+                                                                        background: background: #03658c;
+                                                                        /* padding: 12px; */
+                                                                        margin-left: 12px;
+                                                                        margin-bottom: 12px;
+                                                                         ">
+                                                                            responser
+                                </button>
+                             </div>
+                        </div>
+                `;
+                
+                let item = createCustomElement("li",{"class":"list-level"},[inner]);
+                item.classList.add("opacityBorderActive");
+                fragment.appendChild(item);
+            
+                container.appendChild(fragment);
+                let parent = container.parentElement.parentElement;
+                parent.scrollTo(0,parent.scrollHeight);
+                setInterval(()=>{
+                    item.classList.remove("opacityBorderActive");
+                },3000);
+            
+        }
+        
+    }
 
 };

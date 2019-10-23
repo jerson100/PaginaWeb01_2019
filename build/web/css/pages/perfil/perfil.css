@@ -383,6 +383,23 @@
     flex-direction: column;
 }
 
+.opacityBorderActive{
+    animation-name: commentActive;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes commentActive{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
 /*RESPONSIVE*/
 
 /*Móviles en horizontal o tablets en vertical
@@ -496,6 +513,7 @@
     .container-users{
         max-height: calc(100vh - 20rem);
         min-height: 520px;
+        max-width: 405px;
         overflow-y: auto;
     }
 

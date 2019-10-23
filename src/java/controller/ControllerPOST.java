@@ -11,6 +11,7 @@ import dao.exceptions.AllException;
 import dao.exceptions.CreateException;
 import dao.interfaces.ICrud;
 import dao.manager.DaoManager;
+import dao.model.ComentarioDao;
 import dao.model.UsuarioDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,6 +24,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Comentario;
 import model.Like;
 import model.User;
 import utils.Validator;
@@ -51,8 +54,11 @@ public class ControllerPOST extends HttpServlet {
                 case "ver":
                     verPost(request, response);
                     break;
-                case "listarlikes":
-                    verUsersLikePost(request, response);
+                case "detallePost":
+                    verDetallePost(request, response);
+                    break;
+                case "comment":
+                    comentar(request, response);
                     break;
             }
         } else {
@@ -70,7 +76,7 @@ public class ControllerPOST extends HttpServlet {
         String id = request.getParameter("id");
         boolean estado = false;
         String msg = "";
-        String url = url = getServletContext().getContextPath() + "/login";
+        String url = getServletContext().getContextPath() + "/login";
         System.out.println("id: " + id);
         //Preguntamos si hay una sesión iniciada, si no la hay 
         //en el cliente redireccionamos al login
@@ -107,17 +113,22 @@ public class ControllerPOST extends HttpServlet {
         print.print(json.toJson(map));
     }
 
-    private void verUsersLikePost(HttpServletRequest request, HttpServletResponse response) {
-        response.setContentType("application/json;charset=UTF-8");        
+    private void verDetallePost(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("application/json;charset=UTF-8");
         String idPost = request.getParameter("id");
         String msg = "";
         boolean estado = false;
-        List<User> users=null;
+        //List<User> users = null;
+        List<Comentario> comments = null;
         if (idPost != null && Validator.validateNumber(idPost)) {
+
             try {
-                ICrud dao = DaoManager.getDaoManager(EDaoManager.DAO_USER);
-                users = ((UsuarioDao) dao).allUserLikePost(Integer.parseInt(idPost));
+                ICrud dao = DaoManager.getDaoManager(EDaoManager.DAO_Comentarios);
+                comments = dao.all(Integer.parseInt(idPost));
                 estado = true;
+                /*ICrud dao = DaoManager.getDaoManager(EDaoManager.DAO_USER);
+                users = ((UsuarioDao) dao).allUserLikePost(Integer.parseInt(idPost));
+                estado = true;*/
             } catch (AllException ex) {
                 msg = ex.getMessage();
             }
@@ -126,13 +137,73 @@ public class ControllerPOST extends HttpServlet {
         }
         Map<String, Object> map = new HashMap<>();
         map.put("mensaje", msg);
-        map.put("estado",estado);
-        map.put("usuarios", users);
+        map.put("estado", estado);
+        map.put("allComments", comments);
         try {
             PrintWriter print = response.getWriter();
             Gson json = new Gson();
             print.println(json.toJson(map));
-        } catch (IOException ex) {}
+        } catch (IOException ex) {
+        }
+    }
+
+    private void comentar(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("application/json;charset=UTF-8");
+        String idPost = request.getParameter("id");
+        String texto = request.getParameter("texto");
+        String msg = "";
+        boolean estado = false;
+        User us = null;
+        String url = "";
+        if (idPost != null && Validator.validateNumber(idPost)) {
+
+            //validamos si hay una sesión iniciada
+            //de lo contrario lo redireccionamos al inicio
+            HttpSession se = (HttpSession) request.getSession();
+
+            if ((User) se.getAttribute("user") == null) {
+                
+                url = getServletContext().getContextPath() + "/login";
+                
+                msg = "Inicie sesión para poder comentar";
+
+            } else {
+
+                try {
+                    ICrud dao = DaoManager.getDaoManager(EDaoManager.DAO_Comentarios);
+                    Comentario c = new Comentario();
+                    c.setIdPost(Integer.parseInt(idPost));
+                    c.setTexto(texto);
+                    User usS = (User) request.getSession().getAttribute("user");
+                    c.setUser(usS);
+                    dao.create(c);
+                    estado = true;
+                    us = new User();
+                    us.setIdPerson(usS.getIdPerson());
+                    us.setIdTypeUser(usS.getIdTypeUser());
+                    us.setUsername(usS.getUsername());
+                    us.setUrl(usS.getUrl());
+                } catch (CreateException e) {
+                    msg = e.getMessage();
+                }
+
+            }
+
+        } else {
+            msg = "No existe esa publicación";
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("mensaje", msg);
+        map.put("estado", estado);
+        map.put("user", us);
+        map.put("url", url);
+        try {
+            PrintWriter print = response.getWriter();
+            Gson json = new Gson();
+            print.println(json.toJson(map));
+        } catch (IOException ex) {
+        }
     }
 
 }

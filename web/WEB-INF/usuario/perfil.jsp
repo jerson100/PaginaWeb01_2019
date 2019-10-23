@@ -62,6 +62,7 @@
         <link rel="stylesheet" href="css/components/formulario.css">
         <link href="css/components/loader.css" rel="stylesheet" type="text/css"/>
         <link href="css/components/modal.css" rel="stylesheet" type="text/css"/>
+        <link href="css/components/comment.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <jsp:include page="../includes/header.jsp"></jsp:include>
@@ -170,6 +171,7 @@
         <script>toogleButton('icon', 'navigation', 'active')</script>
         <script>toogleButton('user-arrow' , 'user-acces', 'active-profile-user')</script>
         <script src="js/vistaCards.js"></script>
+        <script src="js/utils/elements.js" type="text/javascript"></script>
         <script src="js/utils/modal.js" type="text/javascript"></script>
         <script>
             openModalImg("publicaciones");
@@ -184,6 +186,5 @@
         <script src="js/view-profile-update.js.js" type="text/javascript"></script>
         <%}%>
         <script src="https://kit.fontawesome.com/56e0c4d4ed.js"></script>
-        <script src="js/utils/elements.js" type="text/javascript"></script>
     </body>
 </html>
