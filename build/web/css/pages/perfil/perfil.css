@@ -306,8 +306,10 @@
     align-items: center;
 }
 
-.container-countlikes{
+.container-count-details{
     margin-bottom: 1.2rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .user-item{
@@ -488,6 +490,10 @@
         left: calc(50% - calc(var(--width-border) * 2) / 2);
     }
 
+    .card-user-type{
+        z-index: 100000;
+    }
+    
     .card-user-type:hover .user-type_name{
         transform: translateX(calc(45px / 2 * -1 + .5rem)) translateY(27px) scale(1);
     }

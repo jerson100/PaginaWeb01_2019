@@ -49,21 +49,14 @@ body {
 
 .comments-list {
     margin-top: 30px;
+    padding-right: 1rem;
     position: relative;
 }
 
 /**
  * Lineas / Detalles
  -----------------------*/
-.comments-list:before {
-    content: '';
-    width: 2px;
-    height: 100%;
-    background: #c7cacb;
-    position: absolute;
-    left: calc(32.73px / 2 + 1px);
-    top: 0;
-}
+
 
 .comments-list:after {
     content: '';
@@ -113,21 +106,14 @@ body {
  * Avatar
  ---------------------------*/
 .comments-list .comment-avatar {
-    width: 45px;
-    height: 45px;
+    width: 30px;
+    height: 30px;
     object-fit: cover;
     position: relative;
     z-index: 99;
     float: left;
     margin-right: 1rem;
-    border: 3px solid #FFF;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    overflow: hidden;
+    border-radius: 50%;
 }
 
 .comments-list .comment-avatar img {
@@ -162,7 +148,8 @@ body {
  * Caja del Comentario
  ---------------------------*/
 .comments-list .comment-box {
-    width: 100%;
+/*    width: 85%;*/
+    flex-grow: 1;/*espacio sobrante lo agregamos a este contenedor*/
     float: right;
     position: relative;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);

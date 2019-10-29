@@ -1,4 +1,4 @@
-/* global AJAX */
+/* global AJAX, openModalError */
 
 'use strict';
 
@@ -159,13 +159,16 @@ const openModalImg = (p) => {
                                     <div class="post_info_hours">${footer.querySelector(".card_footer_fecha").firstElementChild.textContent}</div>
                                 </div>
                             </div>
-                            <div class="container-countlikes">
+                            <div class="container-count-details">
                                 <span clas="count-likes">
                                     <svg viewBox="0 0 17 15.736" class="svg-like" xmlns="http://www.w3.org/2000/svg"> 
                                             <path d="M0,40.045H2.909V31.318H0Zm16-8a1.459,1.459,0,0,0-1.455-1.455H9.964l.727-3.345v-.218a1.525,1.525,0,0,0-.291-.8L9.6,25.5,4.8,30.3a1.22,1.22,0,0,0-.436,1.018v7.273a1.459,1.459,0,0,0,1.455,1.455h6.545a1.437,1.437,0,0,0,1.309-.873l2.182-5.164a1.238,1.238,0,0,0,.073-.509V32.045H16Z" transform="translate(0.5 -24.81)"></path>
                                     </svg>
                                     ${elementP.nextElementSibling.firstElementChild.textContent}
-                                </span>     
+                                </span> 
+                                <span id="count-comments">
+                                    0 comentarios
+                                </span>
                             </div>
                             <h2 style="pading: 1rem 0;">Comentarios</h2>
                             <div class="container-users">
@@ -197,9 +200,6 @@ const openModalImg = (p) => {
                 modalm.container.firstElementChild.style.maxWidth = "100%";
                 modalm.container.firstElementChild.style.padding = "0";
                 modalm.container.classList.add("container-details");
-                
-                console.log(modalm.container);
-                console.log("Pruebasss");
                 
                 /*modalm.container.firstElementChild.style.margin = "1rem 2rem";*/
                 document.body.classList.add("scrollOff");
@@ -234,6 +234,9 @@ const openModalImg = (p) => {
 
     const printComments = (json) => {
         if (json.estado) {
+            //agregamos la cantidad de comentarios...
+            document.getElementById("count-comments").textContent = `${json.allComments.length} comentarios`;
+            
             //agregamos los comentarios
             let users = json.allComments;
             let container = document.getElementById("comments-list");
@@ -242,7 +245,18 @@ const openModalImg = (p) => {
                 let inner = `
                         <div class="comment-main-level" id="comment-${us.idComentario}">
                             <!-- Avatar -->
-                            <div class="comment-avatar"><img src=${us.user.url} alt=${us.user.username}></div>
+                            <div class="card_autor_img comment-avatar">
+                                
+                                <div class="card-user-type"><svg viewBox="0 0 16 16" class="svg-icon-admin" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-97.103 -44.137)">
+                                                        <path d="M113.1,52.137a8,8,0,1,0-8,8,8,8,0,0,0,8-8" fill="#f0c419"></path>
+                                                        <path d="M155.4,88.276l1.7,3.434,3.63.566-2.578,2.673.8,3.549L155.4,96.951,151.847,98.5l.8-3.549-2.578-2.673,3.63-.566Z" transform="translate(-50.299 -41.917)" fill="#ffe69f"></path></g>
+                                                        </svg>
+                                                        <span class="user-type_name">adm</span>
+                                                    </div>
+                                <img class="" src=${us.user.url} alt=${us.user.username}">
+</div>
+                                                    
+                                                    
                             <!-- Contenedor del Comentario -->
                             <div class="comment-box">
                                 <div class="comment-head">
@@ -276,10 +290,10 @@ const openModalImg = (p) => {
 
     const printUsersLikes = (users, listContainer) => {
         return new Promise((resolve, reject) => {
-            if (users == null ||
-                    users == undefined ||
-                    listContainer == null ||
-                    listContainer == undefined) {
+            if (users === null ||
+                    users === undefined ||
+                    listContainer === null ||
+                    listContainer === undefined) {
                 reject("Error....");
             } else {
                 let fragment = document.createDocumentFragment();
@@ -288,7 +302,7 @@ const openModalImg = (p) => {
                     let li = document.createElement("li");
                     li.setAttribute("class", "user-item");
                     let adm = "";
-                    if (e.idTypeUser == 1) {
+                    if (e.idTypeUser === 1) {
                         adm = `
                             <div class="card-user-type">
                                 <svg viewBox="0 0 16 16" class="svg-icon-admin" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-97.103 -44.137)">
@@ -330,30 +344,47 @@ const openModalImg = (p) => {
                 multipart: true,
                 data: dat
             };
-            AJAX.ajax(request).then((response) => {
-                let json = JSON.parse(response.responseText);
-                console.log(json);
-                if(json.url){
-                    location.href = json.url;
-                }else{
-                    printUser(json,texto);
-                }
-            });
-        });
-    }
+            AJAX.ajax(request)
+                .then((response) => openModalError(JSON.parse(response.responseText)))
+                .then((response)=>{
+                    document.body.removeChild(response.container);
+                    location.href = response.data.url;
+                })
+                .catch((dat)=>{//cuando url es vacío
+                    console.log(dat);
+                    printComment(dat.data,texto);
+                });
+        })
+    };
     
-    const redirect = (json,url) =>{
+    
+    const openModalError = (json)=>{
         return new Promise((resolve,reject)=>{
-            setTimeout(()=>{
-                //creamos el modal 
-                let modalM = new ModalMensajeError(json.mensaje);
-            },2000);
+            if(json===null || 
+                json === undefined ||
+                json.mensaje === null ||
+                json.url === null ||
+                json.url === ''){
+                reject({"data":json,"msg":"Error"});
+            }else{
+                let modalM = new ModalMensajeError(json.mensaje,true);
+                modalM.open("msg-normal-open-text");//abrimos el modal
+                setTimeout(()=>{
+                    resolve({"container":modalM.container,"data":json});
+                },2000);
+            }
         });
     };
     
-    const printUser = (json,texto)=>{
+    const printComment = (json,texto)=>{
         
         if(json.estado){
+            
+            //actualizamos la cantidad de comentarios + 1
+            let container_count = document.getElementById("count-comments");
+            let array = container_count.textContent.split(/[ ]+/);
+            console.log(array);
+            container_count.textContent = parseInt(array[0]) + 1 + " " + array[1];
             
             let us = json.user;
             let container = document.getElementById("comments-list");
@@ -361,7 +392,18 @@ const openModalImg = (p) => {
             let inner = `
                     <div class="comment-main-level">
                             <!-- Avatar -->
-                            <div class="comment-avatar"><img src=${us.url} alt=${us.username}></div>
+                            <div class="card-user">
+                                                    
+                                                    <div class="card-user-type"><svg viewBox="0 0 16 16" class="svg-icon-admin" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-97.103 -44.137)">
+                                                        <path d="M113.1,52.137a8,8,0,1,0-8,8,8,8,0,0,0,8-8" fill="#f0c419"></path>
+                                                        <path d="M155.4,88.276l1.7,3.434,3.63.566-2.578,2.673.8,3.549L155.4,96.951,151.847,98.5l.8-3.549-2.578-2.673,3.63-.566Z" transform="translate(-50.299 -41.917)" fill="#ffe69f"></path></g>
+                                                        </svg>
+                                                        <span class="user-type_name">adm</span>
+                                                    </div>
+                                                    
+                                                    <img class="card_autor_img comment-avatar" src=${us.url} alt=${us.username}">
+                            </div>
+                            <!--<div class="comment-avatar"><img src=${us.url} alt=${us.username}></div>-->
                             <!-- Contenedor del Comentario -->
                             <div class="comment-box">
                                 <div class="comment-head">
