@@ -173,9 +173,7 @@
         <script src="js/vistaCards.js"></script>
         <script src="js/utils/elements.js" type="text/javascript"></script>
         <script src="js/utils/modal.js" type="text/javascript"></script>
-        <script>
-            openModalImg("publicaciones");
-        </script>
+        <script src="js/profile.js" type="text/javascript"></script>
         <script src="js/ajax.js" type="text/javascript"></script>
         <script src="js/view-profile-like.js" type="text/javascript"></script>
         <%if (request.getSession().getAttribute("user") != null && us.getIdPerson()==
