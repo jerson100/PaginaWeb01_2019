@@ -13,7 +13,7 @@ class Modal {
         if (isActive) {
             this.container.style.display = "none";
             document.body.appendChild(this.container);
-    }
+        }
     }
 
     //crea el modal
@@ -95,8 +95,16 @@ class Modal {
 
 class ModalMensaje extends Modal {
     constructor(mensaje, closable = false) {
-        let body = document.createElement("p");
-        body.textContent = mensaje;
+        let body = document.createElement("div");
+
+        if (mensaje.nodeType) {//elementos html y document fragment
+            if (mensaje.nodeType === 1 || mensaje.nodeType === 11) {
+                body.appendChild(mensaje);
+            }
+        } else {//string
+            body.innerHTML = mensaje;
+        }
+
         super(null, body, null, closable, false);
         this.mensaje = mensaje;
         this.container.classList.add("modal-msg");

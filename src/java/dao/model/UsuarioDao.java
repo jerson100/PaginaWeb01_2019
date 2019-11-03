@@ -183,6 +183,8 @@ public class UsuarioDao implements IUsuario {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    
     @Override
     public List<User> allUserLikePost(int idPost) throws AllException {
         List<User> users = new ArrayList<>();
@@ -212,6 +214,37 @@ public class UsuarioDao implements IUsuario {
             }
         } catch (SQLException ex) {
             throw new AllException("Aún no han dado like a esa publicación");
+        } finally {
+            cerrarConexiones();
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> lastRegisteredUsers(int count) throws AllException {
+        connection = ConnectionMysql.getInstance();
+        User us = null;
+        conn = connection.connect();
+        List<User> users = new ArrayList<>();
+        try {
+            pr = conn.prepareStatement("select * from vusers order by idUser desc limit ?");
+            pr.setInt(1, count);
+            rs = pr.executeQuery();
+            if (rs.next()) {
+                us = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                us.setUrl(rs.getString(6));
+                users.add(us);
+                while(rs.next()){
+                    us = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                    us.setUrl(rs.getString(6));
+                    users.add(us);
+                }
+            } else {
+                throw new AllException("No se encontraron usuarios");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new AllException("No se encontraron usuarios");
         } finally {
             cerrarConexiones();
         }

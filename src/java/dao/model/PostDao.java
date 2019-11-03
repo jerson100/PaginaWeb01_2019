@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Post;
+import model.User;
 
 /**
  *
@@ -38,7 +39,7 @@ public class PostDao implements IPost {
             connection = ConnectionMysql.getInstance();
             conn = connection.connect();
             cbl = conn.prepareCall("call sp_insert_post(?,?,?)");
-            cbl.setInt(1, o.getIdUser());
+            cbl.setInt(1, o.getUser().getIdPerson());
             cbl.setString(2, o.getTitle());
             cbl.setString(3, o.getUrlImage());
             if (cbl.executeUpdate() == 0) {
@@ -75,10 +76,12 @@ public class PostDao implements IPost {
             pr = conn.prepareStatement("select * from vpost where idUser=?");
             pr.setInt(1, id);
             rs = pr.executeQuery();
+            User us = new User();
             if (rs.next()) {
                 Post l = new Post();
+                us.setIdPerson(rs.getInt(2));
                 l.setIdPost(rs.getInt(1));
-                l.setIdUser(rs.getInt(2));
+                l.setUser(us);
                 l.setTitle(rs.getString(3));
                 l.setUrlImage(rs.getString(4));
                 l.setDatePost(new Date(rs.getTimestamp(5).getTime()));
@@ -86,8 +89,10 @@ public class PostDao implements IPost {
                 post.add(l);
                 while (rs.next()) {
                     l = new Post();
+                    us = new User();
+                    us.setIdPerson(rs.getInt(2));
                     l.setIdPost(rs.getInt(1));
-                    l.setIdUser(rs.getInt(2));
+                    l.setUser(us);
                     l.setTitle(rs.getString(3));
                     l.setUrlImage(rs.getString(4));
                     l.setDatePost(new Date(rs.getTimestamp(5).getTime()));
@@ -115,21 +120,31 @@ public class PostDao implements IPost {
             rs = pr.executeQuery();
             if (rs.next()) {
                 Post l = new Post();
+                User us = new User();
+                us.setIdPerson(rs.getInt(2));
                 l.setIdPost(rs.getInt(1));
-                l.setIdUser(rs.getInt(2));
                 l.setTitle(rs.getString(3));
                 l.setUrlImage(rs.getString(4));
                 l.setDatePost(new Date(rs.getDate(5).getTime()));
                 l.setCountLikes(rs.getInt(6));
+                us.setUsername(rs.getString(7));
+                us.setIdTypeUser(rs.getInt(8));
+                us.setUrl(rs.getString(9));
+                l.setUser(us);
                 post.add(l);
                 while (rs.next()) {
                     l = new Post();
+                    us = new User();
+                    us.setIdPerson(rs.getInt(2));
                     l.setIdPost(rs.getInt(1));
-                    l.setIdUser(rs.getInt(2));
                     l.setTitle(rs.getString(3));
                     l.setUrlImage(rs.getString(4));
                     l.setDatePost(new Date(rs.getDate(5).getTime()));
                     l.setCountLikes(rs.getInt(6));
+                    us.setUsername(rs.getString(7));
+                    us.setIdTypeUser(rs.getInt(8));
+                    us.setUrl(rs.getString(9));
+                    l.setUser(us);
                     post.add(l);
                 }
             } else {

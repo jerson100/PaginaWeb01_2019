@@ -8,7 +8,8 @@ import java.util.Date;
  */
 public class Post {
     private int idPost;
-    private int idUser;//usuario que creó el post
+    //private int idUser;//usuario que creó el post
+    private User user;
     private String title;
     private String urlImage;
     private Date datePost;
@@ -18,11 +19,9 @@ public class Post {
     public Post() {
     }
     
-    
-
-    public Post(int idPost, int idUser, String title, String urlImage, byte idState) {
+    public Post(int idPost, User user, String title, String urlImage, byte idState) {
         this.idPost = idPost;
-        this.idUser = idUser;
+        this.user = user;
         this.title = title;
         this.urlImage = urlImage;
         this.idState = idState;
@@ -30,16 +29,16 @@ public class Post {
 
     public Post(int idPost, int idUser, String title, String urlImage, Date datePost, int countLikes) {
         this.idPost = idPost;
-        this.idUser = idUser;
+        this.user = user;
         this.title = title;
         this.urlImage = urlImage;
         this.datePost = datePost;
         this.countLikes = countLikes;
     }
 
-    public Post(int idPost, int idUser, String title, String urlImage, Date datePost, byte idState, int countLikes) {
+    public Post(int idPost, User user, String title, String urlImage, Date datePost, byte idState, int countLikes) {
         this.idPost = idPost;
-        this.idUser = idUser;
+        this.user = user;
         this.title = title;
         this.urlImage = urlImage;
         this.datePost = datePost;
@@ -55,12 +54,12 @@ public class Post {
         this.idPost = idPost;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTitle() {

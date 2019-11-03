@@ -18,6 +18,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -47,8 +49,14 @@ public class ControllerPOST extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ControllerPOST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         String accion = request.getParameter("accion");
-        System.out.println(accion);
         if (accion != null) {
             switch (accion) {
                 case "ver":
@@ -60,16 +68,14 @@ public class ControllerPOST extends HttpServlet {
                 case "comment":
                     comentar(request, response);
                     break;
+                case "detalleLikeXPost":
+                    verDetalleLike(request, response);
+                    break;
             }
         } else {
             response.sendRedirect("");
         }
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
     private void verPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
@@ -111,6 +117,36 @@ public class ControllerPOST extends HttpServlet {
         map.put("estado", estado);
         map.put("url", url);
         print.print(json.toJson(map));
+    }
+
+    private void verDetalleLike(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("application/json;charset=UTF-8");
+        String idPost = request.getParameter("id");
+        String msg = "";
+        boolean estado = false;
+        //List<User> users = null;
+        List<User> users = null;
+        if (idPost != null && Validator.validateNumber(idPost)) {
+            try {
+                ICrud dao = DaoManager.getDaoManager(EDaoManager.DAO_USER);
+                users = ((UsuarioDao) dao).allUserLikePost(Integer.parseInt(idPost));
+                estado = true;
+            } catch (AllException ex) {
+                msg = ex.getMessage();
+            }
+        } else {
+            msg = "No existe esa publicación";
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("mensaje", msg);
+        map.put("estado", estado);
+        map.put("allUsers", users);
+        try {
+            PrintWriter print = response.getWriter();
+            Gson json = new Gson();
+            print.println(json.toJson(map));
+        } catch (IOException ex) {
+        }
     }
 
     private void verDetallePost(HttpServletRequest request, HttpServletResponse response) {
@@ -162,9 +198,9 @@ public class ControllerPOST extends HttpServlet {
             HttpSession se = (HttpSession) request.getSession();
 
             if ((User) se.getAttribute("user") == null) {
-                
+
                 url = getServletContext().getContextPath() + "/login";
-                
+
                 msg = "Inicie sesión para poder comentar";
 
             } else {

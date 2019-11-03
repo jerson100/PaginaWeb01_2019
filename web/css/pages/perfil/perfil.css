@@ -199,12 +199,13 @@
     position: relative;
     height: 40px;
     width: 40px;
+        margin-right: 1rem;
 }
 
 .card-user-type{
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
 }
 
 .svg-icon-admin{
@@ -343,6 +344,10 @@
 
 .container-users a{
     color: #385898;
+}
+
+.container-users{
+    position: relative;
 }
 
 /*continer left*/
@@ -491,7 +496,7 @@
     }
 
     .card-user-type{
-        z-index: 100000;
+        z-index: var(--z-normal);
     }
     
     .card-user-type:hover .user-type_name{

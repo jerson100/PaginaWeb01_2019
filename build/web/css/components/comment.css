@@ -50,7 +50,7 @@ body {
 .comments-list {
     margin-top: 30px;
     padding-right: 1rem;
-    position: relative;
+    /*position: relative;*/
 }
 
 /**
@@ -106,8 +106,6 @@ body {
  * Avatar
  ---------------------------*/
 .comments-list .comment-avatar {
-    width: 30px;
-    height: 30px;
     object-fit: cover;
     position: relative;
     z-index: 99;
@@ -117,8 +115,9 @@ body {
 }
 
 .comments-list .comment-avatar img {
-    width: 100%;
-    height: 100%;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     object-fit: cover;
 }
 

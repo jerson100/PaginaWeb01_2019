@@ -1,3 +1,9 @@
+/*
+    
+    Loader en centro de la pantalla
+
+*/
+
 .loader-container,.loader-container::before{
     width: 40px;
     height: 40px;
@@ -19,6 +25,33 @@
     position: absolute;
     left: -3px;
     top: -3px;
+}
+
+.loader-active{
+    display: block;
+}
+
+
+/*
+    Loader en una posición específica
+*/
+
+.loader-especifico{
+    transform: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.loader-especifico::before{
+    content : '';
+}
+
+
+/*ambos*/
+.loader-container::before,.loader-especifico::before{
+    content : '';
     border-top-color: red;
     border-left-color: transparent;
     border-right-color: transparent;
@@ -29,10 +62,6 @@
     animation-duration: 1s;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-}
-
-.loader-active{
-    display: block;
 }
 
 @keyframes moveloader{

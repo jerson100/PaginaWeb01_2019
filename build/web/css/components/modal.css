@@ -55,10 +55,16 @@
 }
 */
 
+.modal-viewLike{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-light);
+}
 
 .modal-container{
-   background-color: rgba(0,0,0,.8);
-  z-index: 10000;
+  background-color: rgba(0,0,0,.8);
+  z-index: var(--z-modal);
   position: fixed;
   top: 0;
   left: 0;
@@ -108,7 +114,7 @@
   border-radius: 15px;
   font-size:16px;
   pointer-events: none;
-  z-index: 10000;
+  z-index: var(--z-modal);
 }
 
 .msg-error{

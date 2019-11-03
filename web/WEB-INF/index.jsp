@@ -4,6 +4,10 @@
     Author     : Jerson
 --%>
 
+<%@page import="utils.JeDate"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="model.Post"%>
+<%@page import="java.util.List"%>
 <%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -30,11 +34,85 @@
         <link rel="stylesheet" href="css/pages/perfil/perfil.css">
         <link rel="stylesheet" href="css/components/modal.css">
         <link rel="stylesheet" href="css/components/formulario.css">
+        <link href="css/pages/home/home.css" rel="stylesheet" type="text/css"/>
         <script src="js/toogle.js"></script>
     </head>
     <body>
-        <jsp:include page="WEB-INF/includes/header.jsp"></jsp:include>
+        <%
+            List<Post> post = (List<Post>)request.getAttribute("posts");
+            List<User> lastUsers = (List<User>)request.getAttribute("lastUsers");
+        %>
+        <jsp:include page="includes/header.jsp"></jsp:include>
         <div class="user-banner-portada"><img src="imgs/jpg/banner.jpg" alt="imagen de portada"></div>
+        <main>
+            <div class="je-container container-main">
+                <div class="je-item">
+                    <section id="section-post">
+                        <h2 class="title-articles">Últimas publicaciones</h2>
+                        <div class="je-container container-post">
+                        <%for(Post p: post){%>
+                            <div class="je-item article-post">
+                                <article class="card" id="post-<%=p.getIdPost()%>">
+                                    <header class="card-header">
+                                        <a href="post?id=<%=p.getIdPost()%>">
+                                            <h3 class="card-header_title"><%=p.getTitle()%></h3>
+                                            <div class="card-header_img">
+                                                <img src="<%=p.getUrlImage()%>" alt="<%=p.getTitle()%>" class="img-post">
+                                            </div>
+                                        </a>
+                                    </header>
+                                    <footer class="card-footer" class="card_post__info">
+                                        <div class="card_autor" id="user-<%=p.getUser().getIdPerson()%>">
+                                            <img src="<%=p.getUser().getUrl()%>" alt="<%=p.getUser().getUsername()%>" class="card_autor__img img-user">
+                                            <a href="perfil?id=<%=p.getUser().getIdPerson()%>" class="card_autor__name"><%=p.getUser().getUsername()%></a>
+                                        </div>
+                                        <div class="card_fecha">
+                                            <span><%=JeDate.getTime(p.getDatePost())%></span>
+                                        </div>
+                                    </footer>
+                                </article>
+                            </div>
+                        <%}%>    
+                        </div>
+                    </section>
+                    <section>
+                        <h2>
+                            Otra cosa
+                        </h2>
+                    </section>
+                </div>
+                <div class="je-item">
+                    <aside>
+                        <h2 style="display: none;">Aside</h2>
+                        <section class="section-lastUsers">
+                            <h3>Últimos usuarios Registrados</h3>
+                            <ol class="list-users">
+                                <%
+                                    int count = 1;
+                                %>
+                                <%for(User u:lastUsers){%>
+                                    <li class="item-user" id="item-user-<%=u.getIdPerson()%>">
+                                        <div class="item-user_info">
+                                            <span class="count"><%=(count++)+"."%></span>
+                                            <img src="<%=u.getUrl()%>" alt="<%=u.getUsername()%>" class="img-user">
+                                            <a class="username" href="perfil?id=<%=u.getIdPerson()%>"><%=u.getUsername()%></a>
+                                        </div>
+                                    </li>
+                                <%}%>
+                            </ol> 
+                        </section>
+                        <section class="section-userPost-count">
+                            <h3>Usuarios con más publicaciones</h3>
+                            <ul>
+                                <li>Juan</li>
+                                <li>Pedro</li>
+                                <li>Manuel</li>
+                            </ul>
+                        </section>
+                    </aside>
+                </div>
+            </div>
+        </main>
         <footer>
             <div class="je-container container-footer">
                 <div class="je-item">

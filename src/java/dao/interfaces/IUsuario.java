@@ -14,4 +14,5 @@ en este caso la clase UserDao*/
 public interface IUsuario extends ICrud<User, Integer>{
     User login(String username,String password) throws AccesDeneg;
     List<User> allUserLikePost(int idPost) throws AllException;
+    List<User> lastRegisteredUsers(int count) throws AllException;
 }

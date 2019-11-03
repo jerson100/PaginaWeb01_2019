@@ -81,6 +81,13 @@ public class ControllerProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ControllerPOST.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
         request.setCharacterEncoding("UTF-8");//para obtener todo en utf8
         if (request.getParameter("accion") != null) {
             if (request.getSession().getAttribute("user") == null) {
@@ -221,7 +228,8 @@ public class ControllerProfile extends HttpServlet {
                     if (guardarImagenDeProdructoEnElSistemaDeFicheros(input, s + "/" + urlPost)) {
                         try {
                             Post post = new Post();
-                            post.setIdUser(((User) request.getSession().getAttribute("user")).getIdPerson());
+                            User us = (User) request.getSession().getAttribute("user");
+                            post.setUser(us);
                             post.setTitle(String.valueOf(request.getParameter("titulo")));
                             post.setUrlImage(path + urlPost);
                             dao.create(post);
