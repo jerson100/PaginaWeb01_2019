@@ -4,6 +4,7 @@
     let container = document.getElementById("container-publicaciones");
     let loader = document.getElementById("loader");
     container.addEventListener("click", e => {
+        console.log("click");
         if (e.target.tagName === "path") {
             loader.classList.add("loader-active");
             let svg = e.target.parentElement;
@@ -36,12 +37,6 @@
 
     const draw = (json,svg,like) => {
         let msgError = document.body.querySelector(".modal-msg");
-        console.log(msgError);
-        console.log(json.estado);
-        console.log(json.mensaje);
-        console.log(json.url);
-        console.log(svg);
-        console.log(like);
         let modal;
         if (msgError !== null)
             document.body.removeChild(msgError);

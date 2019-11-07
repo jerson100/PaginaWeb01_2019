@@ -114,6 +114,7 @@ try {
                 User us = new User(0, username, pass, 2, 4, email);
                 userDao.create(us);
                 Profile pr = new Profile();
+                pr.setUrlImage("imgs/users/profile.jpg");
                 pr.setName(name);
                 pr.setLastname(last_name);
                 pr.setIdUser(us.getIdPerson());
@@ -122,6 +123,7 @@ try {
                 create = true;
                 msg = "Registro completado satisfactoriamente";
             } catch (CreateException ex) {
+                ex.printStackTrace();
                 msg = ex.getMessage();
             }
         }

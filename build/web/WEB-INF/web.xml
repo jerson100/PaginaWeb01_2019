@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	 version="3.1">
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-     <welcome-file-list>
-        <welcome-file>home</welcome-file>
-    </welcome-file-list>
-    <servlet>
+    <!--<servlet>
         <servlet-name>ControllerHome</servlet-name>
         <servlet-class>controller.ControllerHome</servlet-class>
-    </servlet>
+    </servlet>-->
+    <welcome-file-list>
+        <welcome-file>faces/index.xhtml</welcome-file>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
     <error-page>
         <error-code>500</error-code>
         <location>/errors/servererror.jsp</location>

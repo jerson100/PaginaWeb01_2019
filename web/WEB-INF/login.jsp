@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>login</title>
+    <title>Login</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, width=device-width">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700|Open+Sans:700">

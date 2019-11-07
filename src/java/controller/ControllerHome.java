@@ -6,9 +6,7 @@ import dao.interfaces.ICrud;
 import dao.manager.DaoManager;
 import dao.model.UsuarioDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
-import javafx.geometry.Pos;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -59,5 +57,5 @@ public class ControllerHome extends HttpServlet {
             throws ServletException, IOException {
         
     }
-
+    
 }

@@ -54,7 +54,35 @@ public class PostDao implements IPost {
 
     @Override
     public Post read(Integer id) throws ReadException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Post post = null;
+        try {
+            connection = ConnectionMysql.getInstance();
+            conn = connection.connect();
+            pr = conn.prepareStatement("select * from vpost where idPost = ?");
+            pr.setInt(1,id);
+            rs = pr.executeQuery();
+            if (rs.next()) {
+                post = new Post();
+                User us = new User();
+                us.setIdPerson(rs.getInt(2));
+                post.setIdPost(rs.getInt(1));
+                post.setTitle(rs.getString(3));
+                post.setUrlImage(rs.getString(4));
+                post.setDatePost(new Date(rs.getTimestamp(5).getTime()));
+                post.setCountLikes(rs.getInt(6));
+                us.setUsername(rs.getString(7));
+                us.setIdTypeUser(rs.getInt(8));
+                us.setUrl(rs.getString(9));
+                post.setUser(us);
+            } else {
+                throw new ReadException("No se encontraró el post");
+            }
+        } catch (SQLException ex) {
+            throw new ReadException("No se encontraró el post");
+        } finally {
+            cerrarConexiones();
+        }
+        return post;
     }
 
     @Override
@@ -125,7 +153,7 @@ public class PostDao implements IPost {
                 l.setIdPost(rs.getInt(1));
                 l.setTitle(rs.getString(3));
                 l.setUrlImage(rs.getString(4));
-                l.setDatePost(new Date(rs.getDate(5).getTime()));
+                l.setDatePost(new Date(rs.getTimestamp(5).getTime()));
                 l.setCountLikes(rs.getInt(6));
                 us.setUsername(rs.getString(7));
                 us.setIdTypeUser(rs.getInt(8));
@@ -139,7 +167,7 @@ public class PostDao implements IPost {
                     l.setIdPost(rs.getInt(1));
                     l.setTitle(rs.getString(3));
                     l.setUrlImage(rs.getString(4));
-                    l.setDatePost(new Date(rs.getDate(5).getTime()));
+                    l.setDatePost(new Date(rs.getTimestamp(5).getTime()));
                     l.setCountLikes(rs.getInt(6));
                     us.setUsername(rs.getString(7));
                     us.setIdTypeUser(rs.getInt(8));
@@ -198,6 +226,56 @@ public class PostDao implements IPost {
                 Logger.getLogger(LikeDao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    @Override
+    public List<Post> all(int i,int j) throws AllException {
+        List<Post> post = new ArrayList<>();
+        try {
+            connection = ConnectionMysql.getInstance();
+            conn = connection.connect();
+            pr = conn.prepareStatement("select * from vpost limit ?,?");
+            pr.setInt(1, i);
+            pr.setInt(2, j);
+            rs = pr.executeQuery();
+            if (rs.next()) {
+                Post l = new Post();
+                User us = new User();
+                us.setIdPerson(rs.getInt(2));
+                l.setIdPost(rs.getInt(1));
+                l.setTitle(rs.getString(3));
+                l.setUrlImage(rs.getString(4));
+                l.setDatePost(new Date(rs.getTimestamp(5).getTime()));
+                l.setCountLikes(rs.getInt(6));
+                us.setUsername(rs.getString(7));
+                us.setIdTypeUser(rs.getInt(8));
+                us.setUrl(rs.getString(9));
+                l.setUser(us);
+                post.add(l);
+                while (rs.next()) {
+                    l = new Post();
+                    us = new User();
+                    us.setIdPerson(rs.getInt(2));
+                    l.setIdPost(rs.getInt(1));
+                    l.setTitle(rs.getString(3));
+                    l.setUrlImage(rs.getString(4));
+                    l.setDatePost(new Date(rs.getTimestamp(5).getTime()));
+                    l.setCountLikes(rs.getInt(6));
+                    us.setUsername(rs.getString(7));
+                    us.setIdTypeUser(rs.getInt(8));
+                    us.setUrl(rs.getString(9));
+                    l.setUser(us);
+                    post.add(l);
+                }
+            } else {
+                throw new AllException("No se encontrarón Post");
+            }
+        } catch (SQLException ex) {
+            throw new AllException("No se encontrarón Post");
+        } finally {
+            cerrarConexiones();
+        }
+        return post;
     }
 
 }

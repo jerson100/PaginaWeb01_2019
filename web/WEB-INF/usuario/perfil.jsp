@@ -167,15 +167,17 @@
             </div>
         </main>
         <jsp:include page="../includes/footer.jsp"></jsp:include>
+        <script src="js/view-profile-like.js" type="text/javascript"></script>
         <script src="js/toogle.js"></script>
         <script>toogleButton('icon', 'navigation', 'active')</script>
         <script>toogleButton('user-arrow' , 'user-acces', 'active-profile-user')</script>
         <script src="js/vistaCards.js"></script>
         <script src="js/utils/elements.js" type="text/javascript"></script>
         <script src="js/utils/modal.js" type="text/javascript"></script>
-        <script src="js/profile.js" type="text/javascript"></script>
         <script src="js/ajax.js" type="text/javascript"></script>
-        <script src="js/view-profile-like.js" type="text/javascript"></script>
+        <script src="js/view-like.js" type="text/javascript"></script>
+        <script src="js/send-comment.js" type="text/javascript"></script>
+        <script src="js/profile.js" type="text/javascript"></script>
         <%if (request.getSession().getAttribute("user") != null && us.getIdPerson()==
                 ((User)request.getSession().getAttribute("user")).getIdPerson()) {%>
         <script src="js/form.js" type="text/javascript"></script>

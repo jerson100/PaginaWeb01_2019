@@ -201,7 +201,6 @@ public class ControllerProfile extends HttpServlet {
             //enviamos los recursos a perfil.jsp
             request.getRequestDispatcher("WEB-INF/usuario/perfil.jsp").forward(request, response);
         } catch (ReadException e) {
-            e.printStackTrace();
             response.sendRedirect("");
         }
     }

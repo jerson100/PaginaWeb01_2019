@@ -9,7 +9,14 @@
         if (padre) {
             padre.addEventListener('click', e => {
                 let elementP = e.target;//elemento pulsado
+                
                 if (elementP.tagName === 'IMG') {
+                    
+                    let idPost = e.target.nextElementSibling.lastElementChild.textContent;
+                    let prev = location.href;
+                    console.log(location.href);
+                    history.pushState(null, "", `post?id=${idPost}`);
+                    console.log(location.href);
                     if (document.querySelector(".container-details") !== null) {
                         document.body.removeChild(document.querySelector(".container-details"));
                     }
@@ -81,15 +88,16 @@
                     modalm.container.firstElementChild.style.padding = "0";
                     modalm.container.classList.add("container-details");
 
-                    let idPost = e.target.nextElementSibling.lastElementChild.textContent;
-
                     //para poder ver los usuarios que dieron like a la publicación
                     viewUserLike(idPost);
 
                     /*modalm.container.firstElementChild.style.margin = "1rem 2rem";*/
                     document.body.classList.add("scrollOff");
 
-                    sendComment(document.getElementById("send-comment"), e.target.nextElementSibling.lastElementChild.textContent);//cuando quiera publicar
+                    sendComment(document.getElementById("send-comment"),document.getElementById("send-comment").previousElementSibling,
+                    e.target.nextElementSibling.lastElementChild.textContent,
+                    document.getElementById("count-comments"),
+                    document.getElementById("comments-list"));//cuando quiera publicar
 
                     /*let loader = document.getElementById("loaderLike");
                      loader.classList.add("loader-active");*/
@@ -109,6 +117,7 @@
                         return removeLoader(loaderComments,response);
                     }).then((response) => {//luego de realizar la petición y pintar quitamos el loader
                         let json = JSON.parse(response.responseText);
+                        console.log(json);
                         printComments(json);
                     }).catch((error) => {
                         /*loader.classList.remove("loader-active");
@@ -126,123 +135,6 @@
             parent.appendChild(loader);
             
             return {"loader": loader, "parent": parent};
-        };
-
-        /*
-         * Permite mostrar en una ventana modal a todos los usuarios que dieron like a una determina 
-         * publicación.
-         * @param {Integer} idPost - Id del post.
-         * @returns {undefined}
-         * 
-         */
-        const viewUserLike = (idPost) => {
-            let svg = document.getElementById("svg-like");
-            //agregamos el listener
-            svg.addEventListener('click', ()=>{
-                call(idPost);   
-            });
-        };
-
-        let call = (idPost) => {
-            //Realizamos la petición ajax para obtener a todos los 
-            //usuarios que dieron like a una determinada publicación.
-            let data = new FormData();
-            data.append("accion", "detalleLikeXPost");
-            data.append("id", idPost);
-
-            let request = {
-                method: "post",
-                url: "post",
-                multipart: true,
-                data: data
-            };
-
-            let modalObject = mostrarModalAndLoader();
-
-            AJAX.ajax(request)
-                    .then((response) => {
-                        return removeLoader(modalObject, response);
-                    }).then((response) => {
-                        return draw(JSON.parse(response.responseText), modalObject);
-                    }).catch((error) => {
-                        modalObject.parent.innerHTML = `<li>${error}<li>`;
-                    });
-        };
-
-        
-        const removeLoader = (obj, response) => {
-            return new Promise((resolve, reject) => {
-                obj.parent.removeChild(obj.loader);
-                resolve(response);
-            });
-        };
-
-        const mostrarModalAndLoader = () => {
-            let list = document.createElement("ul");
-            list.style.padding = "1rem";
-            list.style.minWidth = "150px";
-            list.style.minHeight = "150px";
-
-            let loader = document.createElement("div");
-            loader.classList.add("loader-container", "loader-active", "loader-especifico");
-            list.appendChild(loader);
-
-            let modal = new Modal(null, list, null, true, false);
-
-            modal.open();
-            modal.container.firstElementChild.style.maxWidth = "100%";
-            modal.container.firstElementChild.style.padding = "0";
-
-            return {"loader": loader, "parent": list};
-        };
-
-        const draw = (json = undefined, modalObject) => {
-            return new Promise((resolve, reject) => {
-                //cuando se de click en el svg, entonces tenemos que 
-                //crear un modal y un loader..
-                
-                if (json === null || json === undefined || json.allUsers === null) {
-                    reject("El argumento pasado no es válido");
-                }
-
-                if(json.allUsers === undefined)reject("Sin likes...");
-
-                //obtener el elemento ul del modal para agregarle los li que contendrán a los usuarios
-                //que dieron like..
-                let list = modalObject.parent;
-
-                let fragment = document.createDocumentFragment();
-                
-                json.allUsers.forEach(e => {
-                    let li = document.createElement("li");
-                    li.setAttribute("class", "user-item");
-                    let adm = "";
-                    if (e.idTypeUser === 1) {
-                        adm = `
-                            <div class="card-user-type">
-                                <svg viewBox="0 0 16 16" class="svg-icon-admin" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-97.103 -44.137)">
-                                    <path d="M113.1,52.137a8,8,0,1,0-8,8,8,8,0,0,0,8-8" fill="#f0c419"></path>
-                                    <path d="M155.4,88.276l1.7,3.434,3.63.566-2.578,2.673.8,3.549L155.4,96.951,151.847,98.5l.8-3.549-2.578-2.673,3.63-.566Z" transform="translate(-50.299 -41.917)" fill="#ffe69f"></path></g>
-                                </svg>
-                                <span class="user-type_name">adm</span>
-                            </div>
-                        `;
-                    }
-                    li.innerHTML = `
-                        <div class="flex">
-                            <div class="card-user">
-                                ${adm}
-                                <img class="user-img-like" src=${e.url} alt=${e.username}></img>
-                            </div>
-                            <a href="perfil?id=${e.idPerson}"><span class="us">${e.username}</span></a>
-                        </div>
-                    `;
-                    fragment.appendChild(li);
-                });
-
-                list.appendChild(fragment);
-                resolve();
-            });
         };
 
         const printComments = (json) => {
@@ -299,132 +191,6 @@
                 });
                 container.appendChild(fragment);
             }
-        };
-
-        /*
-         * @param {Integer} idPost - Id de la publicación 
-         * @param {Object} send - Elemento html
-         * @returns {undefinied}
-         * 
-         */
-        const sendComment = (send, idPost) => {
-            send.addEventListener('click', e => {
-                let parent = send.previousElementSibling;//hermano anterior(input)
-                let texto = parent.value;
-                let dat = new FormData();
-                dat.append("accion", "comment");
-                dat.append("id", idPost);
-                dat.append("texto", texto);
-                let request = {
-                    method: 'Post',
-                    url: 'post',
-                    multipart: true,
-                    data: dat
-                };
-                AJAX.ajax(request)
-                        .then((response) => openModalError(JSON.parse(response.responseText)))
-                        .then((response) => {
-                            document.body.removeChild(response.container);
-                            location.href = response.data.url;
-                        })
-                        .catch((dat) => {//cuando url es vacío
-                            console.log(dat);
-                            printComment(dat.data, texto);
-                        });
-            });
-        };
-
-        const printComment = (json, texto) => {
-
-            if (json.estado) {
-
-                //actualizamos la cantidad de comentarios + 1
-                let container_count = document.getElementById("count-comments");
-                let array = container_count.textContent.split(/[ ]+/);
-                console.log(array);
-                container_count.textContent = parseInt(array[0]) + 1 + " " + array[1];
-
-                let us = json.user;
-                let container = document.getElementById("comments-list");
-                let fragment = document.createDocumentFragment();
-                let inner = `
-                        <div class="comment-main-level" id="comment-${us.idComentario}">
-                            <!-- Avatar -->
-                            <div class="card_autor_img comment-avatar">
-                                
-                                <div class="card-user-type"><svg viewBox="0 0 16 16" class="svg-icon-admin" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-97.103 -44.137)">
-                                                        <path d="M113.1,52.137a8,8,0,1,0-8,8,8,8,0,0,0,8-8" fill="#f0c419"></path>
-                                                        <path d="M155.4,88.276l1.7,3.434,3.63.566-2.578,2.673.8,3.549L155.4,96.951,151.847,98.5l.8-3.549-2.578-2.673,3.63-.566Z" transform="translate(-50.299 -41.917)" fill="#ffe69f"></path></g>
-                                                        </svg>
-                                                        <span class="user-type_name">adm</span>
-                                                    </div>
-                                <img class="" src=${us.url} alt=${us.username}">
-</div>
-                                                    
-                                                    
-                            <!-- Contenedor del Comentario -->
-                            <div class="comment-box">
-                                <div class="comment-head">
-                                    <h6 class="comment-name by-author"><a href=perfil?id=${us.idPerson}>${us.username}</a></h6>
-                                        <span>Hace instantes</span>
-                                        <i class="fa fa-heart"></i>
-                                </div>
-                                <div class="comment-content">
-                                    ${texto}
-                                </div>
-                                <button class="response button" style="
-                                                                        color: white;
-                                                                        background: #03658c;
-                                                                        background: background: #03658c;
-                                                                        /* padding: 12px; */
-                                                                        margin-left: 12px;
-                                                                        margin-bottom: 12px;
-                                                                         ">
-                                                                            responser
-                                </button>
-                             </div>
-                        </div>
-                `;
-
-                let item = createCustomElement("li", {"class": "list-level"}, [inner]);
-                item.classList.add("opacityBorderActive");
-                fragment.appendChild(item);
-
-                container.appendChild(fragment);
-                let parent = container.parentElement.parentElement;
-                parent.scrollTo(0, parent.scrollHeight);
-                setInterval(() => {
-                    item.classList.remove("opacityBorderActive");
-                }, 3000);   
-
-            }
-
-        };
-
-
-        /*
-         * Nos permite mostrar un modal con un mensaje de error
-         * en el viewport
-         * @param {Object} json
-         * @returns {undefined}
-         * 
-         */
-        const openModalError = (json) => {
-            return new Promise((resolve, reject) => {
-                if (json === null ||
-                        json === undefined ||
-                        json.mensaje === null ||
-                        json.url === null ||
-                        json.url === '') {
-                    reject({"data": json, "msg": "Error"});
-                } else {
-                    let modalM = new ModalMensajeError(json.mensaje, true);
-                    modalM.open("msg-normal-open-text");//abrimos el modal
-                    setTimeout(() => {
-                        resolve({"container": modalM.container, "data": json});
-                    }, 2000);
-                }
-            });
         };
 
     };

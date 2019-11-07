@@ -53,6 +53,7 @@ public class ProfileDao implements IProfile {
                 throw new CreateException("No se pudo crear el perfil");
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new CreateException("No se pudo crear el perfil");
         } finally {
             cerrarConexiones();

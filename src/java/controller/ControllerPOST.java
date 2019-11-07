@@ -1,17 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import com.google.gson.Gson;
 import dao.enums.EDaoManager;
 import dao.exceptions.AllException;
 import dao.exceptions.CreateException;
+import dao.exceptions.ReadException;
 import dao.interfaces.ICrud;
 import dao.manager.DaoManager;
 import dao.model.ComentarioDao;
+import dao.model.PostDao;
 import dao.model.UsuarioDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Comentario;
 import model.Like;
+import model.Post;
 import model.User;
+import utils.Pagination;
 import utils.Validator;
 
 /**
@@ -44,6 +43,40 @@ public class ControllerPOST extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getSession().removeAttribute("url");
+        
+        String id = request.getParameter("id");
+        
+        if(id!=null && Validator.validateNumber(id)){
+        
+            ICrud<Post,Integer> postDao = DaoManager.getDaoManager(EDaoManager.DAO_POST);
+            ICrud comentsDao = DaoManager.getDaoManager(EDaoManager.DAO_Comentarios);
+            Post post = null;
+            List<Comentario> comm = null;
+            boolean redirectError = true;
+            String msg = "";
+            
+            try {
+                post = postDao.read(Integer.parseInt(id));
+            } catch (ReadException ex) {
+                redirectError = false;
+                msg = ex.getMessage();
+            }
+            
+            if(redirectError){
+                try {
+                    comm = comentsDao.all(Integer.parseInt(id));
+                } catch (AllException ex) {
+                } finally{
+                    request.setAttribute("post", post);
+                    request.setAttribute("comments", comm);
+                    request.getRequestDispatcher("WEB-INF/post/post.jsp").forward(request, response);
+                }
+            }else{
+                response.sendError(404, msg);
+            }
+        }else{
+            response.sendError(404, "Recurso no disponible");  
+        }
     }
 
     @Override
@@ -70,6 +103,9 @@ public class ControllerPOST extends HttpServlet {
                     break;
                 case "detalleLikeXPost":
                     verDetalleLike(request, response);
+                    break;
+                case "allPostXpagination":
+                    allPostXpagination(request,response);
                     break;
             }
         } else {
@@ -240,6 +276,34 @@ public class ControllerPOST extends HttpServlet {
             print.println(json.toJson(map));
         } catch (IOException ex) {
         }
+    }
+
+    private void allPostXpagination(HttpServletRequest request, HttpServletResponse response) {
+        PrintWriter print = null;
+        try {
+            response.setContentType("application/json;charset=UTF-8");
+            print = response.getWriter();
+            
+            Pagination p = new Gson().fromJson(request.getParameter("current-page"), Pagination.class);
+            p.setCountXpage(10);
+            
+                ICrud daoPost = DaoManager.getDaoManager(EDaoManager.DAO_POST);
+                List list = null;
+                try {
+                    list = ((PostDao)daoPost).all((p.getCurrent_page()-1)*10,10);
+                    p.setNext(p.getCurrent_page()+1);
+                    p.setPrev(p.getCurrent_page()-1);
+                    p.setData(list);
+                } catch (AllException e) {} 
+            print.write(new Gson().toJson(p));
+        } catch (IOException ex) {
+        } finally{
+            if(print!=null){
+                print.close();
+            }
+        }
+        
+        
     }
 
 }
