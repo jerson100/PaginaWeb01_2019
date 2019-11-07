@@ -1,17 +1,18 @@
+/* global AJAX */
 "use strict";
 
 ((window, document, undefined) => {
     let container = document.getElementById("container-publicaciones");
     let loader = document.getElementById("loader");
     container.addEventListener("click", e => {
-        console.log("click");
+        
         if (e.target.tagName === "path") {
             loader.classList.add("loader-active");
             let svg = e.target.parentElement;
             let idPost = svg.nextElementSibling.textContent;
             let dat = new FormData();
             dat.append("id", idPost);
-            dat.append("accion", "ver")
+            dat.append("accion", "ver");
             let request = {
                 method: 'POST',
                 url: 'post',

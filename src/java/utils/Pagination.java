@@ -6,7 +6,7 @@ import java.util.List;
  *
  * @author Jerson
  */
-public class Pagination {
+public class Pagination<T> {
     
     private int count_page;
     private int countXpage;
@@ -15,7 +15,7 @@ public class Pagination {
     private int last_page;
     private int next;
     private int prev;
-    private List<Object> data;
+    private List<T> data;
 
     public int getCount_page() {
         return count_page;
@@ -73,11 +73,11 @@ public class Pagination {
         this.prev = prev;
     }
 
-    public List<Object> getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public void setData(List<Object> data) {
+    public void setData(List<T> data) {
         this.data = data;
     }
 

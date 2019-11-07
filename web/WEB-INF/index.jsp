@@ -35,6 +35,7 @@
         <link rel="stylesheet" href="css/pages/perfil/perfil.css">
         <link rel="stylesheet" href="css/components/modal.css">
         <link rel="stylesheet" href="css/components/formulario.css">
+        <link href="css/components/loader.css" rel="stylesheet" type="text/css"/>
         <link href="css/pages/home/home.css" rel="stylesheet" type="text/css"/>
         <link href="css/components/pagination.css" rel="stylesheet" type="text/css"/>
         <script src="js/toogle.js"></script>
@@ -52,7 +53,7 @@
                     <section id="section-post">
                         <h2 class="title-articles">Últimas publicaciones</h2>
                         <div class="je-container container-post" id="container-post-a">
-                        <c:forEach items="${posts}" var="p">
+                        <c:forEach items="${pagination.data}" var="p">
                             <div class="je-item article-post">
                                 <article class="card" id="post-<c:out value="${p.idPost}"/>">
                                     <header class="card-header">
@@ -77,18 +78,21 @@
                             </div>
                         </c:forEach>
                         </div>
+                        <c:set var="pag" scope="page" value="${pagination}"/>
                         <div id="main-page" class="pagination">
                             <div class="p-left">
-                                <button class="button" id="1"><</button>
+                                <button class="button" id="<c:out value="${pag.first_page}"/>"><</button>
                             </div>
                             <ul class="pagination_list">
-                               <li class="pagination_item"><button class="button current-page">1</button></li>
-                                <li class="pagination_item"><button class="button">2</button></li>
-                                <li class="pagination_item"><button class="button">3</button></li> 
-                                <li class="pagination_item"><button class="button">5</button></li> 
+                                <li class="pagination_item"><button class="button current-page">1</button></li>
+                                <c:forEach var="j" begin="2" end="${pag.last_page}">  
+                                    <li class="pagination_item">
+                                        <button class="button"><c:out value="${j}"/></button>
+                                    </li>
+                                </c:forEach>
                             </ul>
                             <div class="p-right">
-                                <button class="button" id="2">></button>
+                                <button class="button" id="<c:out value="${pag.last_page}"/>">></button>
                             </div>
                         </div>
                     </section>

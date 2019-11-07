@@ -283,11 +283,11 @@ public class ControllerPOST extends HttpServlet {
             response.setContentType("application/json;charset=UTF-8");
             print = response.getWriter();
             
-            Pagination p = new Gson().fromJson(request.getParameter("current-page"), Pagination.class);
+            Pagination<Post> p = new Gson().fromJson(request.getParameter("current-page"), Pagination.class);
             p.setCountXpage(10);
             
                 ICrud daoPost = DaoManager.getDaoManager(EDaoManager.DAO_POST);
-                List list = null;
+                List<Post> list = null;
                 try {
                     list = ((PostDao)daoPost).all((p.getCurrent_page()-1)*10,10);
                     p.setNext(p.getCurrent_page()+1);

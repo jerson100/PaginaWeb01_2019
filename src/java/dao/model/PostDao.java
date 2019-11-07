@@ -278,4 +278,22 @@ public class PostDao implements IPost {
         return post;
     }
 
+    @Override
+    public int countRegister() {
+        try {
+            connection = ConnectionMysql.getInstance();
+            conn = connection.connect();
+            pr = conn.prepareStatement("select count(*) from vpost");
+            rs = pr.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally{
+            cerrarConexiones();
+        }
+        return 0;
+    }
+
 }

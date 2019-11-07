@@ -97,13 +97,16 @@ const pagination = (containerId,idContainerPost) => {
                 /*
                  Si el botón pulsado corresponse a la paginación actual,
                  entonces no debemos realizar la petición ajax.
-                 */
+                */
                 console.log(e.target);
-                if (!e.target.classList.contains(".current-page")) {
+                if (!e.target.classList.contains("current-page")) {
                     
                     let paginacion = getPagination(e.target);
                     
                     if(paginacion!==null){
+                        
+                        //creamos el loader
+                        let loader = createLoader();
                         
                         //realizamos la petición ajax
 
@@ -120,13 +123,16 @@ const pagination = (containerId,idContainerPost) => {
                         };
 
                         AJAX.ajax(request)
-                                .then((response) => {
-                                    //console.log(JSON.parse(response.responseText));
+                                .then((response) => {//respuesta ajax
                                     return drawCards(JSON.parse(response.responseText),idContainerPost,container,e.target); 
                                 })
-                                .then()
+                                .then(()=>{
+                                    //removemos el loader.
+                                   document.body.removeChild(loader);
+                                })
                                 .catch(response=>{
-                                   console.log(response); 
+                                    //removemos el loader si ocurre una excepción.
+                                   document.body.removeChild(loader);
                                 });
                         
                     }
@@ -220,8 +226,8 @@ const drawCards = (json,idContainerPost,containerNav,elementPressed) =>{
                         </article>
                     `;
                                 
-                    containerPost.appendChild(itemPost); //agregamos el post al contenedor de post     
-                                
+                    containerPost.appendChild(itemPost); //agregamos el post al contenedor de post
+                    
                 });
                 
                 resolve();
@@ -234,6 +240,13 @@ const drawCards = (json,idContainerPost,containerNav,elementPressed) =>{
         
     });
     
+};
+
+const createLoader = () =>{
+    let loader = document.createElement("div");
+    loader.classList.add("loader-container", "loader-active");
+    document.body.appendChild(loader);
+    return loader;
 };
 
 const clearSelection = (containerNav)=>{
