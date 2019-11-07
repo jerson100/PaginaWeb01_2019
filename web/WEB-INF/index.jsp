@@ -51,7 +51,7 @@
                 <div class="je-item">
                     <section id="section-post">
                         <h2 class="title-articles">Últimas publicaciones</h2>
-                        <div class="je-container container-post">
+                        <div class="je-container container-post" id="container-post-a">
                         <c:forEach items="${posts}" var="p">
                             <div class="je-item article-post">
                                 <article class="card" id="post-<c:out value="${p.idPost}"/>">
@@ -134,7 +134,7 @@
         <script src="js/ajax.js" type="text/javascript"></script>
         <script src="js/pagination.js" type="text/javascript"></script>
         <script>
-            pagination(document.getElementById("main-page"));
+            pagination("main-page","container-post-a");
         </script>
         <script src="https://kit.fontawesome.com/56e0c4d4ed.js"></script>
     </body>

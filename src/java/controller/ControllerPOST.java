@@ -7,7 +7,6 @@ import dao.exceptions.CreateException;
 import dao.exceptions.ReadException;
 import dao.interfaces.ICrud;
 import dao.manager.DaoManager;
-import dao.model.ComentarioDao;
 import dao.model.PostDao;
 import dao.model.UsuarioDao;
 import java.io.IOException;

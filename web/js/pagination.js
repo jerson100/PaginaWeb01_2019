@@ -79,7 +79,9 @@ class Pagination {
 }
 
 
-const pagination = (container) => {
+const pagination = (containerId,idContainerPost) => {
+    
+    let container = document.getElementById(containerId);
 
     if (container) {
 
@@ -119,8 +121,12 @@ const pagination = (container) => {
 
                         AJAX.ajax(request)
                                 .then((response) => {
-                                    console.log(JSON.parse(response.responseText));
-                                    return drawCards(JSON.parse(response.responseText)); 
+                                    //console.log(JSON.parse(response.responseText));
+                                    return drawCards(JSON.parse(response.responseText),idContainerPost,container,e.target); 
+                                })
+                                .then()
+                                .catch(response=>{
+                                   console.log(response); 
                                 });
                         
                     }
@@ -164,8 +170,82 @@ const getPagination = (current_page) => {
 
 
 //pintamos las publicaciones en la pantalla...
-const drawCards = (json) =>{
+const drawCards = (json,idContainerPost,containerNav,elementPressed) =>{
   
+    return new Promise((resolve,reject)=>{
+       
+        if(json===null || json === undefined){
+            
+            reject("argumento pasado no es válido");
+            
+        }else{
+            
+            let containerPost = document.getElementById(idContainerPost);
+            
+            if(containerPost){
+                
+                containerPost.innerHTML = '';
+                
+                clearSelection(containerNav);
+                
+                elementPressed.classList.add("current-page");
+                
+                //pintamos en el containerPpost
+                
+                json.data.forEach(post=>{
+                   
+                    let itemPost = document.createElement("div");
+                    
+                    itemPost.classList.add("je-item","article-post");
+                    
+                    itemPost.innerHTML = `
+                        <article class="card" id="post-${post.idPost}">
+                            <header class="card-header">
+                                <a href="post?id=${post.idPost}">
+                                    <h3 class="card-header_title">${post.title}</h3>
+                                    <div class="card-header_img">
+                                        <img src="${post.urlImage}" alt="${post.title}" class="img-post">
+                                    </div>
+                                </a>
+                            </header>
+                            <footer class="card-footer">
+                                    <div class="card_autor" id="user-${post.user.idPerson}">
+                                        <img src="${post.user.url}" alt="${post.user.username}" class="card_autor__img img-user">
+                                            <a href="perfil?id=${post.user.idPerson}" class="card_autor__name">${post.user.username}</a>
+                                    </div>
+                                    <div class="card_fecha">
+                                        <span>Hace 31 días</span>
+                                    </div> 
+                            </footer>
+                        </article>
+                    `;
+                                
+                    containerPost.appendChild(itemPost); //agregamos el post al contenedor de post     
+                                
+                });
+                
+                resolve();
+                
+            }else{
+                reject("El id del contenedor de los post no existe.");
+            }
+            
+        }
+        
+    });
     
+};
+
+const clearSelection = (containerNav)=>{
     
+    //eliminamos el currentPage de los botones
+    
+    let elementPrev = containerNav.querySelector(".current-page");
+    
+    if(elementPrev){
+        
+        elementPrev.classList.remove("current-page");
+    
+    }
+        
 };
