@@ -10,5 +10,6 @@ import model.Post;
  */
 public interface IPost extends ICrud<Post,Integer>{
     List<Post> all(int i,int j) throws AllException;
+    List<Post> all(int id,int i,int j) throws AllException;
     int countRegister();
 }

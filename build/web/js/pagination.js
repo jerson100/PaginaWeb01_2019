@@ -98,7 +98,7 @@ const pagination = (containerId,idContainerPost) => {
                  Si el botón pulsado corresponse a la paginación actual,
                  entonces no debemos realizar la petición ajax.
                 */
-                console.log(e.target);
+               
                 if (!e.target.classList.contains("current-page")) {
                     
                     let paginacion = getPagination(e.target);
@@ -106,7 +106,10 @@ const pagination = (containerId,idContainerPost) => {
                     if(paginacion!==null){
                         
                         //creamos el loader
-                        let loader = createLoader();
+                        /*let loader = createLoader();*/
+                        
+                        //creamos el loader - style facebook
+                        createLoaderFacebook(idContainerPost);
                         
                         //realizamos la petición ajax
 
@@ -121,18 +124,19 @@ const pagination = (containerId,idContainerPost) => {
                             multipart: true,
                             data: data
                         };
-
+                        
                         AJAX.ajax(request)
                                 .then((response) => {//respuesta ajax
                                     return drawCards(JSON.parse(response.responseText),idContainerPost,container,e.target); 
                                 })
                                 .then(()=>{
+                                    console.log("Terminó de listar");
                                     //removemos el loader.
-                                   document.body.removeChild(loader);
+                                   /*document.body.removeChild(loader);*/
                                 })
                                 .catch(response=>{
                                     //removemos el loader si ocurre una excepción.
-                                   document.body.removeChild(loader);
+                                   /*document.body.removeChild(loader);*/
                                 });
                         
                     }
@@ -145,6 +149,48 @@ const pagination = (containerId,idContainerPost) => {
 
     }
 
+};
+
+/*
+ * 
+ * @param {Integer} idContainerPost
+ * @returns {Loader - div}
+ * 
+ */
+
+const createLoaderFacebook = (idContainerPost) => {
+  
+    let container = document.getElementById(idContainerPost);
+    
+    let div = document.createElement("div");
+        
+        div.innerHTML = `
+            <div class="animate-progrees title"></div>
+            <div class="animate-progrees imagen"></div>
+            <div class="container-footer">
+                <div class="info-autor">
+                    <div class="animate-progrees img-autor"></div>
+                    <div class="animate-progrees username"></div>
+                </div>
+                <div>
+                    <div class="animate-progrees fecha"></div>
+                </div>
+            </div>
+        `;
+    
+    Array.from(container.children).forEach(element=>{
+        
+        let divClonado = div.cloneNode(true);
+        
+        divClonado.className = element.classList.value;
+        divClonado.style.border = "none";
+        divClonado.classList.add("card-animation");
+        
+        container.removeChild(element);
+        container.appendChild(divClonado);
+        
+    });
+    
 };
 
 const getPagination = (current_page) => {
@@ -198,47 +244,84 @@ const drawCards = (json,idContainerPost,containerNav,elementPressed) =>{
                 
                 //pintamos en el containerPpost
                 
+                let timeSeconds = 0; // Tiempo de retardo para que se imprima cada post.
+                let count = 0; // lleva la cuenta de las publicaciones imprimidas en el DOM
+                
+                //resolvemos la promesa si no se encuentran publicaciones.
+                
+                if(json.data.length === 0) resolve();
+                
                 json.data.forEach(post=>{
-                   
-                    let itemPost = document.createElement("div");
                     
-                    itemPost.classList.add("je-item","article-post");
+                    setTimeout(()=>{
+                        
+                        count++;
+                        
+                        let item = printPost(containerPost,post);
+                        
+                        if(count === json.data.length){
+                            
+                            if(count%2!==0){
+                                 
+                                item.style.marginRight = "0";
+                                 
+                            }
+                            
+                            //resolvemos la promesa cuando se termine de imprimir el último post.
+                            
+                            resolve();
+                            
+                        }
+                        
+                    },timeSeconds);
                     
-                    itemPost.innerHTML = `
-                        <article class="card" id="post-${post.idPost}">
-                            <header class="card-header">
-                                <a href="post?id=${post.idPost}">
-                                    <h3 class="card-header_title">${post.title}</h3>
-                                    <div class="card-header_img">
-                                        <img src="${post.urlImage}" alt="${post.title}" class="img-post">
-                                    </div>
-                                </a>
-                            </header>
-                            <footer class="card-footer">
-                                    <div class="card_autor" id="user-${post.user.idPerson}">
-                                        <img src="${post.user.url}" alt="${post.user.username}" class="card_autor__img img-user">
-                                            <a href="perfil?id=${post.user.idPerson}" class="card_autor__name">${post.user.username}</a>
-                                    </div>
-                                    <div class="card_fecha">
-                                        <span>Hace 31 días</span>
-                                    </div> 
-                            </footer>
-                        </article>
-                    `;
-                                
-                    containerPost.appendChild(itemPost); //agregamos el post al contenedor de post
+                    timeSeconds += 400;
                     
                 });
                 
-                resolve();
-                
             }else{
+                
                 reject("El id del contenedor de los post no existe.");
+                
             }
             
         }
         
     });
+    
+};
+
+const printPost = (container,post) =>{
+    
+    let itemPost = document.createElement("div");
+                    
+    itemPost.classList.add("je-item","article-post", "fade");
+                    
+    itemPost.innerHTML = `
+        <article class="card" id="post-${post.idPost}">
+           <header class="card-header">
+                <a href="post?id=${post.idPost}">
+                    <h3 class="card-header_title">${post.title}</h3>
+                    <div class="card-header_img">
+                        <img src="${post.urlImage}" alt="${post.title}" class="img-post">
+                    </div>
+                </a>
+            </header>
+            <footer class="card-footer">
+                <div class="card_autor" id="user-${post.user.idPerson}">
+                    <img src="${post.user.url}" alt="${post.user.username}" class="card_autor__img img-user">
+                    <a href="perfil?id=${post.user.idPerson}" class="card_autor__name">${post.user.username}</a>
+                </div>
+                <div class="card_fecha">
+                    <span>${post.dateFormat}</span>
+                </div> 
+            </footer>
+        </article>
+    `;
+                                
+    container.appendChild(itemPost); //agregamos el post al contenedor de post
+    
+    return itemPost;
     
 };
 

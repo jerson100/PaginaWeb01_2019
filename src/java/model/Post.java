@@ -15,6 +15,7 @@ public class Post {
     private Date datePost;
     private byte idState;
     private int countLikes;
+    private String dateFormat;
 
     public Post() {
     }
@@ -35,7 +36,7 @@ public class Post {
         this.datePost = datePost;
         this.countLikes = countLikes;
     }
-
+    
     public Post(int idPost, User user, String title, String urlImage, Date datePost, byte idState, int countLikes) {
         this.idPost = idPost;
         this.user = user;
@@ -44,6 +45,14 @@ public class Post {
         this.datePost = datePost;
         this.idState = idState;
         this.countLikes = countLikes;
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
     }
 
     public int getIdPost() {

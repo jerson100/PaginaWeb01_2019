@@ -1,0 +1,19 @@
+.animate-progrees{
+  animation-duration: 1.25s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+  background-size: 1000px 100%;
+} 
+
+@keyframes placeHolderShimmer{
+  0%{
+    background-position: -568px 0;
+  }
+  
+  100%{
+    background-position: 568px 0;
+  }
+}

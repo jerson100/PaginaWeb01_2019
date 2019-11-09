@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Post;
 import model.User;
+import utils.JeDate;
 
 /**
  *
@@ -238,6 +239,80 @@ public class PostDao implements IPost {
             pr.setInt(1, i);
             pr.setInt(2, j);
             rs = pr.executeQuery();
+            Date fecha_p;
+            if (rs.next()) {
+                Post l = new Post();
+                User us = new User();
+                us.setIdPerson(rs.getInt(2));
+                l.setIdPost(rs.getInt(1));
+                l.setTitle(rs.getString(3));
+                l.setUrlImage(rs.getString(4));
+                fecha_p = new Date(rs.getTimestamp(5).getTime());
+                l.setDatePost(fecha_p);
+                l.setDateFormat(JeDate.getTime(fecha_p));
+                l.setCountLikes(rs.getInt(6));
+                us.setUsername(rs.getString(7));
+                us.setIdTypeUser(rs.getInt(8));
+                us.setUrl(rs.getString(9));
+                l.setUser(us);
+                post.add(l);
+                while (rs.next()) {
+                    l = new Post();
+                    us = new User();
+                    us.setIdPerson(rs.getInt(2));
+                    l.setIdPost(rs.getInt(1));
+                    l.setTitle(rs.getString(3));
+                    l.setUrlImage(rs.getString(4));
+                    fecha_p = new Date(rs.getTimestamp(5).getTime());
+                    l.setDatePost(fecha_p);
+                    l.setDateFormat(JeDate.getTime(fecha_p));
+                    l.setCountLikes(rs.getInt(6));
+                    us.setUsername(rs.getString(7));
+                    us.setIdTypeUser(rs.getInt(8));
+                    us.setUrl(rs.getString(9));
+                    l.setUser(us);
+                    post.add(l);
+                }
+            } else {
+                throw new AllException("No se encontrarón Post");
+            }
+        } catch (SQLException ex) {
+            throw new AllException("No se encontrarón Post");
+        } finally {
+            cerrarConexiones();
+        }
+        return post;
+    }
+
+    @Override
+    public int countRegister() {
+        try {
+            connection = ConnectionMysql.getInstance();
+            conn = connection.connect();
+            pr = conn.prepareStatement("select count(*) from vpost");
+            rs = pr.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally{
+            cerrarConexiones();
+        }
+        return 0;
+    }
+
+    @Override
+    public List<Post> all(int id, int i, int j) throws AllException {
+        List<Post> post = new ArrayList<>();
+        try {
+            connection = ConnectionMysql.getInstance();
+            conn = connection.connect();
+            pr = conn.prepareStatement("select * from vpost where idUser=? limit ?,?");
+            pr.setInt(1, id);
+            pr.setInt(2, i);
+            pr.setInt(3, j);
+            rs = pr.executeQuery();
             if (rs.next()) {
                 Post l = new Post();
                 User us = new User();
@@ -276,24 +351,6 @@ public class PostDao implements IPost {
             cerrarConexiones();
         }
         return post;
-    }
-
-    @Override
-    public int countRegister() {
-        try {
-            connection = ConnectionMysql.getInstance();
-            conn = connection.connect();
-            pr = conn.prepareStatement("select count(*) from vpost");
-            rs = pr.executeQuery();
-            if(rs.next()){
-                return rs.getInt(1);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally{
-            cerrarConexiones();
-        }
-        return 0;
     }
 
 }

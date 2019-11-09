@@ -1,0 +1,36 @@
+.card-animation{
+  height: 150px;
+}
+
+.card-animation .title{
+  height: 10px;
+  margin-bottom: .5rem;
+}
+
+.card-animation .container-footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-animation .info-autor{
+  display: flex;
+  align-items: center;
+}
+
+.card-animation .username,.card-animation .fecha{
+  width: 100px;
+  height: 10px;
+}
+
+.card-animation .imagen{
+  height: 70px;
+  margin-bottom: .5rem;
+}
+
+.card-animation .img-autor{
+  width: 30px;
+  height: 30px;
+  margin-right: .5rem;
+  border-radius: 50%;
+}

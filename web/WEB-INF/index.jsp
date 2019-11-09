@@ -35,9 +35,12 @@
         <link rel="stylesheet" href="css/pages/perfil/perfil.css">
         <link rel="stylesheet" href="css/components/modal.css">
         <link rel="stylesheet" href="css/components/formulario.css">
+        <link href="css/components/progress/facebook-style.css" rel="stylesheet" type="text/css"/>
+        <link href="css/components/card-animation-post.css" rel="stylesheet" type="text/css"/>
         <link href="css/components/loader.css" rel="stylesheet" type="text/css"/>
         <link href="css/pages/home/home.css" rel="stylesheet" type="text/css"/>
         <link href="css/components/pagination.css" rel="stylesheet" type="text/css"/>
+        <link href="css/components/progress/fade.css" rel="stylesheet" type="text/css"/>
         <script src="js/toogle.js"></script>
     </head>
     <body>

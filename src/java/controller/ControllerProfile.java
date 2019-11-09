@@ -10,6 +10,7 @@ import dao.exceptions.UpdateException;
 import dao.interfaces.ICrud;
 import dao.manager.DaoManager;
 import dao.model.LikeDao;
+import dao.model.PostDao;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import model.Post;
 import model.Profile;
 import model.TypeUser;
 import model.User;
+import utils.Pagination;
 import utils.Validator;
 
 /**
@@ -45,6 +47,8 @@ import utils.Validator;
 @WebServlet(name = "ControllerProfile", urlPatterns = {"/perfil"})
 public class ControllerProfile extends HttpServlet {
 
+    private static final int COUNTXPOST = 10;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -156,7 +160,17 @@ public class ControllerProfile extends HttpServlet {
         Country ct = null;
         List<Post> allPost = null;
         List<Integer> allLikePost = null;
-
+        
+         //obtenemos el total de registros.
+        int countRegister = ((PostDao)postDao).countRegister();
+        Pagination<Post> pagination = new Pagination<>();
+        pagination.setCountXpage(COUNTXPOST);
+        pagination.setCount_page(countRegister);
+        pagination.setCurrent_page(1);
+        pagination.setFirst_page(1);
+        int resto = countRegister % COUNTXPOST;
+        pagination.setLast_page(countRegister/COUNTXPOST + (resto>0?1:0));
+        
         try {
 
             //Falta verificar el estado del perfil del usuario
@@ -169,7 +183,8 @@ public class ControllerProfile extends HttpServlet {
             ct = countryDao.read(p.getIdCountry());
 
             try {
-                allPost = postDao.all(p.getIdUser());
+                allPost = ((PostDao)(postDao)).all(p.getIdUser(),0,COUNTXPOST);
+                
                 //si se encuentra post disponibles para ese perfil
                 //entonces tenemos que verificar que post 
                 Object objUserSession = request.getSession().getAttribute("user");
@@ -188,14 +203,15 @@ public class ControllerProfile extends HttpServlet {
                     }
                 }
             } catch (AllException ex) {
-                //ex.printStackTrace();
             }
 
+            pagination.setData(allPost);
+            
             request.setAttribute("profile", p);
             request.setAttribute("user", us);
             request.setAttribute("typeUser", tu);
             request.setAttribute("country", ct);
-            request.setAttribute("posts", allPost);
+            request.setAttribute("pagination", pagination);
             request.setAttribute("postsUserLike", allLikePost);
 
             //enviamos los recursos a perfil.jsp
