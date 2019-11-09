@@ -127,7 +127,7 @@ const pagination = (containerId,idContainerPost) => {
                         
                         AJAX.ajax(request)
                                 .then((response) => {//respuesta ajax
-                                    return drawCards(JSON.parse(response.responseText),idContainerPost,container,e.target); 
+                                    return drawCards(JSON.parse(response.responseText),idContainerPost,container); 
                                 })
                                 .then(()=>{
                                     console.log("Terminó de listar");
@@ -222,7 +222,7 @@ const getPagination = (current_page) => {
 
 
 //pintamos las publicaciones en la pantalla...
-const drawCards = (json,idContainerPost,containerNav,elementPressed) =>{
+const drawCards = (json,idContainerPost,containerNav) =>{
   
     return new Promise((resolve,reject)=>{
        
@@ -240,7 +240,7 @@ const drawCards = (json,idContainerPost,containerNav,elementPressed) =>{
                 
                 clearSelection(containerNav);
                 
-                elementPressed.classList.add("current-page");
+                drawCurrentPage(json, containerNav);
                 
                 //pintamos en el containerPpost
                 
@@ -287,6 +287,31 @@ const drawCards = (json,idContainerPost,containerNav,elementPressed) =>{
             
         }
         
+    });
+    
+};
+
+const drawCurrentPage = (json,containerNav) => {
+    
+    let itemsNav = containerNav.querySelector(".pagination_list");
+    
+    let btnLeft = containerNav.querySelector(".p-left button");
+    let btnRight = containerNav.querySelector(".p-right button");
+  
+    btnLeft.style.display = json.prev<=0?"none":"";
+    btnRight.style.display = json.prev>=json.data.length?"none":"";
+
+    btnLeft.id = json.prev;
+    btnRight.id = json.next;
+    
+    Array.from(itemsNav.children).forEach(e=>{
+        
+        if(e.firstElementChild.textContent == json.current_page){
+            
+            e.firstElementChild.classList.add("current-page");
+            
+        }
+           
     });
     
 };
