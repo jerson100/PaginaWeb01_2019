@@ -106,7 +106,7 @@
                     </section>
                 </div>
                 <div class="je-item">
-                    <aside>
+                    <aside id="aside">
                         <h2 style="display: none;">Aside</h2>
                         <section class="section-lastUsers">
                             <h3>Últimos usuarios Registrados</h3>
@@ -123,14 +123,14 @@
                                 </c:forEach>
                             </ol> 
                         </section>
-                        <section class="section-userPost-count">
+                        <!--<section class="section-userPost-count">
                             <h3>Usuarios con más publicaciones</h3>
                             <ul>
                                 <li>Juan</li>
                                 <li>Pedro</li>
                                 <li>Manuel</li>
                             </ul>
-                        </section>
+                        </section>-->
                     </aside>
                 </div>
             </div>
@@ -140,8 +140,10 @@
         <script src="js/utils/je-validate.js" type="text/javascript"></script>
         <script src="js/ajax.js" type="text/javascript"></script>
         <script src="js/pagination.js" type="text/javascript"></script>
+        <script src="js/utils/sticky.js" type="text/javascript"></script>
         <script>
             pagination("main-page","container-post-a");
+            sticky("aside",60);
         </script>
         <script src="https://kit.fontawesome.com/56e0c4d4ed.js"></script>
     </body>
