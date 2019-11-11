@@ -14,6 +14,8 @@ public class Cifrado {
     public static void main(String[] args) {
         
         System.out.println(cifradoRot03("BNMSDMSU CD BNMNBDQSD"));
+        System.out.println((int)'a');
+        System.out.println((char)97);
         
     }
     

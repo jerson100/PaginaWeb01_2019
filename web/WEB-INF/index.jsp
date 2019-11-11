@@ -143,7 +143,7 @@
         <script src="js/utils/sticky.js" type="text/javascript"></script>
         <script>
             pagination("main-page","container-post-a");
-            sticky("aside",60);
+            sticky("aside",337,60);
         </script>
         <script src="https://kit.fontawesome.com/56e0c4d4ed.js"></script>
     </body>

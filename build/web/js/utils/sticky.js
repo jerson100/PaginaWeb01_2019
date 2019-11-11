@@ -1,10 +1,11 @@
-const sticky = (idElement, top) => {
-
+const sticky = (idElement, topViewport,top) => {
+    
     let element = document.getElementById(idElement);
-    let topE = element.offsetTop - top;
-    let width = Array.from(element.getClientRects())[0].width;
+    let client = element.getBoundingClientRect();
+    let topE = topViewport - top;//top inicial
+    let width = client.width;
     let mediaQuery = window.matchMedia("(min-width: 1024px)");
-
+    
     document.addEventListener('scroll', e => {
 
         if (mediaQuery.matches && scrollY >= topE) {
@@ -20,4 +21,5 @@ const sticky = (idElement, top) => {
         }
 
     });
+    
 };

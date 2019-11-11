@@ -60,7 +60,8 @@
 
             <div class="je-container main">
                 <section class="je-item section-user">
-                    <header>
+                    <div id="sectionprofile">
+                        <header>
                         <h2 class="ocultar">Descripción</h2>
                     </header>
                     <div class="user-dat user-img"><img src="<c:out value="${profile.urlImage}"/>" alt="<c:out value="${profile.name}"/>"></div>
@@ -70,7 +71,7 @@
                     </div>
                     <div class="user-dat user-description">
                         <p class="small">
-                            <c:out value="${objP.description}"/>
+                            <c:out value="${profile.description}"/>
                         </p>
                     </div>
                     <div class="user-dat user-country">
@@ -85,6 +86,8 @@
                             <button id="user-btn-editar" class="user-dat button">Editar</button>
                             <button class="user-dat button ghost" id="publicar">Publicar</button>
                         </c:if>
+                    </div>
+                    
                 </section>
                 <section class="je-item section-publicaciones" id="publicaciones">
                     <header class="title-publicaciones">
@@ -180,13 +183,15 @@
         <script src="js/view-like.js" type="text/javascript"></script>
         <script src="js/send-comment.js" type="text/javascript"></script>
         <script src="js/profile.js" type="text/javascript"></script>
+        <script src="js/utils/sticky.js" type="text/javascript"></script>
         <c:if test="${!empty sessionScope.user && (user.idPerson == sessionScope.user.idPerson)}">
             <script src="js/form.js" type="text/javascript"></script>
             <script src="js/view-proile-editar.js" type="text/javascript"></script>
             <script src="js/view-profile-publicar.js" type="text/javascript"></script>
             <script src="js/view-profile-update.js.js" type="text/javascript"></script>
         </c:if>
-        <script>
+        <script>      
+            sticky("sectionprofile",250,60);
             pagination("","");
         </script>
         <script src="https://kit.fontawesome.com/56e0c4d4ed.js"></script>
